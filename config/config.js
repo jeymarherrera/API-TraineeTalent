@@ -11,4 +11,8 @@ module.exports = {
     PASSWORD: process.env.DB_PASSWORD,
     DIALECT: "postgres",
   },
+  JWT:{
+    SEED: process.env.JWT_SEED,
+    EXPIRES: process.env.JWT_EXPIRES
+  },
 };
