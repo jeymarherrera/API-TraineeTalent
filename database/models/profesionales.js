@@ -10,6 +10,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "id_direccion",
         onDelete: "CASCADE",
       });
+      profesionales.hasMany(models.areas,{
+        as: "areasProfesional",
+        foreignKey: "id_profesional",
+        onDelete: "CASCADE",
+      });
     }
   }
   profesionales.init({

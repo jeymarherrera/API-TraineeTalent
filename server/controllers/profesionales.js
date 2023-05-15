@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const models = require("../../database/models");
 const {fileUpload} = require("../utils/uploadFiles");
 
-const registro = async (req, res) => {
+const registroProfesionales = async (req, res) => {
   try {
     const { body } = req;
 
@@ -64,4 +64,4 @@ const eliminarUsuario = async(req, res) => {
   };
 };
 
-module.exports = { registro};
+module.exports = { registroProfesionales };

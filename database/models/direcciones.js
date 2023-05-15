@@ -10,6 +10,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "id_direccion",
         onDelete: "CASCADE",
       });
+      direcciones.hasOne(models.empresas,{
+        as: "direccionEmpresas",
+        foreignKey: "id_direccion",
+        onDelete: "CASCADE",
+      });
     }
   }
   direcciones.init({
