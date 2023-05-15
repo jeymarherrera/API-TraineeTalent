@@ -2,26 +2,24 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('direcciones', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      email: {
-        type: Sequelize.STRING,
-        unique: true
-      },
-      password: {
+      pais: {
         type: Sequelize.STRING
       },
-      role: {
+      ciudad: {
         type: Sequelize.STRING
       },
-      statusDelete: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
+      provincia: {
+        type: Sequelize.STRING
+      },
+      calle: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -34,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('direcciones');
   }
 };

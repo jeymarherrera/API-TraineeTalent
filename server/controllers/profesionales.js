@@ -1,20 +1,38 @@
 const bcrypt = require("bcryptjs");
 const models = require("../../database/models");
+const {fileUpload} = require("../utils/uploadFiles");
 
 const registro = async (req, res) => {
   try {
     const { body } = req;
 
-    password = bcrypt.hashSync(body.password, 10);
-    const addUser = await models.users.create({
-      email: body.email,
-      password: password,
-      role: body.role,
+    /* let foto = fileUpload(body.foto, "/public");
+    foto = `http://localhost:5050${foto}`; */
+
+    const direccion = await models.direcciones.create({
+        pais:body.pais,
+        ciudad:body.ciudad,
+        provincia:body.provincia,
+        calle:body.calle,
+    });
+  
+    contrasena = bcrypt.hashSync(body.contrasena, 10);
+    const profesional = await models.profesionales.create({
+      nombre: body.nombre,
+      apellido: body.apellido,
+      correo: body.correo,
+      contrasena: contrasena,
+      telefono: body.telefono,
+      expectativa_salarial: body.expectativa_salarial,
+      disponibilidad: body.disponibilidad,
+      //foto,
+      foto: body.foto,
+      id_direccion:direccion.id
     });
 
-    delete addUser.dataValues.password;
+    delete profesional.dataValues.contrasena;
 
-    return res.status(201).send(addUser);
+    return res.status(201).send({profesional:profesional, direccion:direccion});
   } catch (error) {
     return res
       .status(500)

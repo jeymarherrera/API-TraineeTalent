@@ -7,26 +7,26 @@ const login = async (req, res) => {
     try {
         const { body } = req;
         console.log(body)
-        const findUser = await models.users.findOne({
+        const buscarUsuario = await models.profesionales.findOne({
             where: {
-                email: body.email,
+                correo: body.correo,
             },
         });
 
        
-        if (!findUser)
+        if (!buscarUsuario)
             return res.status(404).send("No se encontró el correo");
 
-        if (!bcrypt.compareSync(body.password, findUser.password))
+        if (!bcrypt.compareSync(body.contrasena, buscarUsuario.contrasena))
             return res.status(404).send("Contraseña incorrecta!");
         
-        delete findUser.dataValues.password;
+        delete buscarUsuario.dataValues.contrasena;
 
-        const token = jwt.sign({ userId: findUser.id }, JWT.SEED, {
+        const token = jwt.sign({ userId: buscarUsuario.id }, JWT.SEED, {
             expiresIn: JWT.EXPIRES,
         });
 
-        return res.status(200).send({ data: findUser, token: token });
+        return res.status(200).send({ data: buscarUsuario, token: token });
 
     } catch (error) {
         return res
