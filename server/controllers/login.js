@@ -6,27 +6,32 @@ const { JWT } = require("../../config/config");
 const login = async (req, res) => {
     try {
         const { body } = req;
-        console.log(body)
-        const buscarUsuario = await models.profesionales.findOne({
-            where: {
-                correo: body.correo,
-            },
-        });
+
+        const findEmail = await models.credentials.findOne({ where: { email: body.email } });
+        let findUser;
 
        
-        if (!buscarUsuario)
-            return res.status(404).send("No se encontró el correo");
+        if (findEmail) {
+            findUser = await models.professionals.findOne({ where: { credentialsId: findEmail.id } });
 
-        if (!bcrypt.compareSync(body.contrasena, buscarUsuario.contrasena))
+            if (!findUser) {
+                findUser = await models.companies.findOne({ where: { credentialsId: findEmail.id } });
+            }
+        }
+
+        if (!findUser) {
+            return res.status(400).json({ message: 'No se encontró este usuario' });
+        }
+
+        if (!bcrypt.compareSync(body.password, findEmail.password))
             return res.status(404).send("Contraseña incorrecta!");
-        
-        delete buscarUsuario.dataValues.contrasena;
 
-        const token = jwt.sign({ userId: buscarUsuario.id }, JWT.SEED, {
-            expiresIn: JWT.EXPIRES,
-        });
+        delete findUser.dataValues.password;
 
-        return res.status(200).send({ data: buscarUsuario, token: token });
+        const token = jwt.sign({ userId: findUser.id }, JWT.SEED, { expiresIn: JWT.EXPIRES });
+        console.log(token)
+
+        return res.status(200).send({ data: findUser, token: token });
 
     } catch (error) {
         return res

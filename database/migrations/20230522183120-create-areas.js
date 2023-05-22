@@ -2,24 +2,29 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('direcciones', {
+    await queryInterface.createTable('areas', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      pais: {
+      area_interest: {
         type: Sequelize.STRING
       },
-      ciudad: {
-        type: Sequelize.STRING
+      professionalsId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "professionals",
+          key: "id",
+        },
+        onDeleted: "CASCADE",
+        onUpdated: "CASCADE",
       },
-      provincia: {
-        type: Sequelize.STRING
-      },
-      calle: {
-        type: Sequelize.STRING
+      statusDelete: {
+        allowNull: false,
+        defaultValue: false,
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -32,6 +37,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('direcciones');
+    await queryInterface.dropTable('areas');
   }
 };
