@@ -9,21 +9,22 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      area_interes: {
+      area_interest: {
         type: Sequelize.STRING
       },
-      id_profesional: {
+      professionalsId: {
         type: Sequelize.INTEGER,
-        references:{
-          model:'profesionales',
-          key:'id'
+        references: {
+          model: "professionals",
+          key: "id",
         },
-        onDeleted:'CASCADE',
-        onUpdated:'CASCADE'
+        onDeleted: "CASCADE",
+        onUpdated: "CASCADE",
       },
-      status_delete: {
+      statusDelete: {
+        allowNull: false,
+        defaultValue: false,
         type: Sequelize.BOOLEAN,
-        defaultValue: false
       },
       createdAt: {
         allowNull: false,

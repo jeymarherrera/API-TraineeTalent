@@ -5,17 +5,17 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class areas extends Model {
     static associate(models) {
-      areas.belongsTo(models.profesionales, {
-        as: "areasProfesional",
-        foreignKey: "id_profesional",
+      areas.belongsTo(models.professionals, {
+        as: "areasProfessionals",
+        foreignKey: "professionalsId",
         onDelete: "CASCADE",
       });
     }
   }
   areas.init({
-    area_interes: DataTypes.STRING,
-    id_profesional: DataTypes.INTEGER,
-    status_delete: DataTypes.BOOLEAN
+    area_interest: DataTypes.STRING,
+    professionalsId: DataTypes.INTEGER,
+    statusDelete: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'areas',

@@ -2,46 +2,44 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('profesionales', {
+    await queryInterface.createTable('companies', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      nombre: {
+      name: {
         type: Sequelize.STRING
       },
-      apellido: {
+      sector: {
         type: Sequelize.STRING
       },
-      correo: {
-        type: Sequelize.STRING,
-        unique: true
-      },
-      contrasena: {
+      image: {
         type: Sequelize.STRING
       },
-      telefono: {
-        type: Sequelize.STRING
-      },
-      expectativa_salarial: {
-        type: Sequelize.INTEGER
-      },
-      disponibilidad: {
-        type: Sequelize.INTEGER
-      },
-      foto: {
-        type: Sequelize.STRING
-      },
-      id_direccion: {
+      credentialsId: {
         type: Sequelize.INTEGER,
-        references:{
-          model:'direcciones',
-          key:'id'
+        references: {
+          model: "credentials",
+          key: "id",
         },
-        onDeleted:'CASCADE',
-        onUpdated:'CASCADE'
+        onDeleted: "CASCADE",
+        onUpdated: "CASCADE",
+      },
+      addressesId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "addresses",
+          key: "id",
+        },
+        onDeleted: "CASCADE",
+        onUpdated: "CASCADE",
+      },
+      statusDelete: {
+        allowNull: false,
+        defaultValue: false,
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -54,6 +52,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('profesionales');
+    await queryInterface.dropTable('companies');
   }
 };

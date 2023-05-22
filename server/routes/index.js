@@ -1,20 +1,18 @@
-const { registroProfesionales } = require("../controllers/profesionales");
-const { registroEmpresas} = require("../controllers/empresas");
-const { editarPerfilProfesional } = require("../controllers/perfiles");
-const { loginProfesionales, loginEmpresas } = require("../controllers/login");
-const {verificarToken} = require("../middlewares/auth");
+const { login } = require("../controllers/login");
+const { addProfessional, editProfileProfessional } = require("../controllers/professionals");
+const { addCompany } = require("../controllers/companies");
+const { verifyToken } = require("../middlewares/auth");
 const {Router} = require("express");
 
 const router = Router();
 //registro
-router.post("/registrarProfesional", registroProfesionales);
-router.post("/registrarEmpresa", registroEmpresas);
+router.post("/registrarProfesional", addProfessional);
+router.post("/registrarEmpresa", addCompany);
 
 //login
-router.post("/loginProfesional", loginProfesionales);
-router.post("/loginEmpresa", loginEmpresas);
+router.post("/login", login);
 
-//perfil
-router.post("/editarPerfil", verificarToken, editarPerfilProfesional);
+//editar Perfil
+router.post("/editarPerfilProfesional", verifyToken, editProfileProfessional);
 
 module.exports = {router};

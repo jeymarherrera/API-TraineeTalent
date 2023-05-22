@@ -2,37 +2,27 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('empresas', {
+    await queryInterface.createTable('credentials', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      nombre: {
-        type: Sequelize.STRING
-      },
-      correo_administrador: {
+      email: {
         type: Sequelize.STRING,
-        unique: true
+        unique: true,
       },
-      contrasena: {
+      password: {
         type: Sequelize.STRING
       },
-      sector: {
+      role: {
         type: Sequelize.STRING
       },
-      foto: {
-        type: Sequelize.STRING
-      },
-      id_direccion: {
-        type: Sequelize.INTEGER,
-        references:{
-          model:'direcciones',
-          key:'id'
-        },
-        onDeleted:'CASCADE',
-        onUpdated:'CASCADE'
+      statusDelete: {
+        allowNull: false,
+        defaultValue: false,
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -45,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('empresas');
+    await queryInterface.dropTable('credentials');
   }
 };
