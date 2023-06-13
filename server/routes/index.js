@@ -30,13 +30,14 @@ router.post("/recuperarContrasena", recoverByEmail);
 router.post("/editarPerfilProfesional", verifyToken, editProfileProfessional);
 //cursos - adminitracion de un curso
 router.post("/crearcursos", createCourse);
-router.get("/traercursos", getAllCourses);
+router.get("/listarcursos", getAllCourses);
 router.post("/borrarcurso/:id", deleteCourse);
 router.post("/editarcurso/:id", updateCourse);
 //cursos - adminitracion de talleres del curso
 router.post("/creartask/:id", createtask);
 router.post("/borrartask/:id", deletetaks);
-router.get("/traertask", getAllTasks)
+router.get("/traertask", getAllTasks);
+
 
 
 router.get("/verifyToken", verifyToken);

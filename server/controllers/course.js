@@ -2,13 +2,57 @@ const models = require('../../database/models/');
 const { fileUpload } = require('../utils/uploadFiles');
 
 // Controlador para crear un nuevo curso
+
+const updateCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
+    const {description} = req.body;
+    const {level} = req.body;
+    const {youwilllearn} = req.body;
+    const {image} = req.body;
+    let _image = fileUpload(image, "/public");
+    _image = `${process.env.APP_BASE_URL}${_image}`;
+
+    // Verifica si el curso existe en la base de datos
+    const course = await Course.findByPk(id);
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: 'Curso no encontrado'
+      });
+    }
+
+    // Actualiza el título del curso
+    course.title = title;
+    course.image =_image;
+    course.description = description;
+    course.level = level;
+    course.youwilllearn = youwilllearn;
+    await course.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Curso actualizado exitosamente',
+      data: course
+    });
+  } catch (error) {
+    console.error('Error al editar el curso:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al editar el curso',
+      error: error.message
+    });
+  }
+};
+
 const createCourse = async (req, res) => {
   try {
     const { title } = req.body;
     const { description } = req.body;
     const { image } = req.body;
-    const {level} = req.body;
-    const {youwilllearn} = req.body
+    const { level } = req.body;
+    const { youwilllearn } = req.body
     let _image = fileUpload(image, "/public");
     _image = `${process.env.APP_BASE_URL}${_image}`;
 
@@ -17,7 +61,7 @@ const createCourse = async (req, res) => {
     const course = await models.courses.create({
       title,
       description,
-      image:_image,
+      image: _image,
       level,
       youwilllearn
     });
@@ -30,7 +74,6 @@ const createCourse = async (req, res) => {
 
     return res.status(201).send(course);
 
-    return res.status(201).send(course);
   } catch (error) {
     console.error('Error al crear el curso:', error);
     res.status(500).json({
