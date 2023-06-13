@@ -1,5 +1,17 @@
 require("dotenv").config();
 
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  host: process.env.MAIL_HOST,
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.MAIL_USERNAME,
+    pass: process.env.MAIL_PASSWORD
+  },
+});
+
 module.exports = {
   PORT: process.env.PORT,
 
@@ -15,4 +27,5 @@ module.exports = {
     SEED: process.env.JWT_SEED,
     EXPIRES: process.env.JWT_EXPIRES
   },
+  TRANSPORTER: transporter
 };
