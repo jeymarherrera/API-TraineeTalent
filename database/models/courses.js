@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   courses.init(
+  courses.init(
     {
       title: DataTypes.STRING,
       description: DataTypes.STRING,
@@ -30,5 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'courses',
     }
   );
+  return courses;
   return courses;
 };
