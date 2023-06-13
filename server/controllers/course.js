@@ -125,16 +125,63 @@ const createtask = async (req, res) =>{
       const task = await models.tasks.create({
         title,
         description, 
-        _image,
+        image: _image,
+        courseid: id
       })
       return res.status(201).send(task)
     }
-
-
   }catch(error){
-    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: 'Error al eliminar el curso',
+      error: error.message
+    });
   }
 }
+
+const deletetaks = async (req, res) => {
+  try{
+    const {id} = req.params;
+    const task = await models.tasks.findByPk(id);
+    if (!task) {
+      return res.status(404).json({
+        success: false,
+        message: 'task no encontrado'
+      });
+    }
+     await task.destroy();
+
+    res.status(200).json({
+      success: true,
+      message: 'Task eliminado exitosamente'
+    });
+  }catch(error){
+    res.status(500).json({
+      success: false,
+      message: 'Error al eliminar el curso',
+      error: error.message
+    });
+  }
+};
+const getAllTasks = async (req, res) => {
+  try {
+    // Obtiene todos los cursos de la base de datos
+    const task = await models.tasks.findAll();
+
+    res.status(200).json({
+      success: true,
+      message: 'talleres obtenidos exitosamente',
+      data: task
+    });
+  } catch (error) {
+    console.error('Error al obtener los talleres:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener los talleres',
+      error: error.message
+    });
+  }
+};
 
 module.exports = {
   createCourse,
@@ -142,4 +189,6 @@ module.exports = {
   deleteCourse,
   updateCourse,
   createtask,
+  deletetaks,
+  getAllTasks,
 }
