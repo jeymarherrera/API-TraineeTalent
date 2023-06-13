@@ -2,9 +2,9 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class course extends Model {
+  class courses extends Model {
     static associate(models) {
-      course.hasMany(models.tasks, {
+      courses.hasMany(models.tasks, {
         as: 'courseTask',
         foreignKey: 'courseid',
         onDelete: 'CASCADE',
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  course.init(
+  courses.init(
     {
       title: DataTypes.STRING,
       description: DataTypes.STRING,
@@ -30,5 +30,5 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'courses',
     }
   );
-  return course;
+  return courses;
 };

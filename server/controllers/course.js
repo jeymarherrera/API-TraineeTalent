@@ -69,16 +69,17 @@ const createCourse = async (req, res) => {
       message: 'Curso creado exitosamente',
       data: course
     });
+
+    return res.status(201).send(course);
   } catch (error) {
     console.error('Error al crear el curso:', error);
     res.status(500).json({
       success: false,
       message: 'Error al crear el curso',
-      error: error.message
+      error: error.message,
     });
   }
 };
-
 const getAllCourses = async (req, res) => {
   try {
     // Obtiene todos los cursos de la base de datos

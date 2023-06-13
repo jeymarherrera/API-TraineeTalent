@@ -3,6 +3,7 @@ const { JWT } = require("../../config/config");
 
 const verifyToken = async (req, res, next) => {
     try {
+        //const token = req.headers["x-access-token"]
         const token = req.get("X-AUTH-TOKEN");
 
         if (!token) {
@@ -12,6 +13,7 @@ const verifyToken = async (req, res, next) => {
         try {
             const decoded = jwt.verify(token, JWT.SEED);
             req.userId = decoded.userId;
+            req.role = decoded.role || null;
             next();
         } catch (error) {
             if (error.name === "TokenExpiredError") {

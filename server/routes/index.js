@@ -1,4 +1,5 @@
 const { login } = require("../controllers/login");
+const { recoverByEmail } = require("../controllers/recoverPassword");
 const { addProfessional, editProfileProfessional } = require("../controllers/professionals");
 const { addCompany } = require("../controllers/companies");
 const { verifyToken } = require("../middlewares/auth");
@@ -22,6 +23,9 @@ router.post("/registrarEmpresa", addCompany);
 //login
 router.post("/login", login);
 
+//recuperar contrasena
+router.post("/recuperarContrasena", recoverByEmail);
+
 //editar Perfil
 router.post("/editarPerfilProfesional", verifyToken, editProfileProfessional);
 //cursos - adminitracion de un curso
@@ -35,4 +39,6 @@ router.post("/borrartask/:id", deletetaks);
 router.get("/traertask", getAllTasks)
 
 
-module.exports = { router };
+router.get("/verifyToken", verifyToken);
+
+module.exports = {router};
