@@ -1,29 +1,35 @@
 const models = require('../../database/models/');
 const { fileUpload } = require('../utils/uploadFiles');
 
-// Controlador para crear un nuevo curso
 const createCourse = async (req, res) => {
   try {
-    const { title } = req.body;
+    const { body } = req;
+
+
+    console.log(req.body);
+    // Verificar si el título no es nulo
+    if (!body.title) {
+      return res.status(400).json({
+        success: false,
+        message: 'El título del curso es obligatorio.',
+      });
+    }
 
     // Crea el nuevo curso en la base de datos
-    const course = await models.courses.create({ title });
-
-    res.status(201).json({
-      success: true,
-      message: 'Curso creado exitosamente',
-      data: course
+    const course = await models.courses.create({
+      title: body.title,
     });
+
+    return res.status(201).send(course);
   } catch (error) {
     console.error('Error al crear el curso:', error);
     res.status(500).json({
       success: false,
       message: 'Error al crear el curso',
-      error: error.message
+      error: error.message,
     });
   }
 };
-
 const getAllCourses = async (req, res) => {
   try {
     // Obtiene todos los cursos de la base de datos

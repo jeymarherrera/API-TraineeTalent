@@ -4,7 +4,7 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('tasks',{
-      id:{
+      idtask:{
         allowNull: false,
         autoIncrement:true,
         primaryKey:true,
@@ -18,20 +18,24 @@ module.exports = {
       },
       image:{
         type: Sequelize.STRING,
+      },statusDelete: {
+        allowNull: false,
+        defaultValue: false,
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       courseid:{
         type: Sequelize.INTEGER,
         references: {
           model: "courses",
-          key: "id",
+          key: "courseid",
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",

@@ -4,7 +4,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('courses', {
-      id: {
+      courseid: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -13,14 +13,19 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
       },
+     statusDelete: {
+        allowNull: false,
+        defaultValue: false,
+        type: Sequelize.BOOLEAN,
+      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-      },
+        type: Sequelize.DATE
+      }
     });
   },
 
