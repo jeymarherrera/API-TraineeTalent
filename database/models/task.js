@@ -23,10 +23,9 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     description: DataTypes.STRING,
     image: DataTypes.STRING,
-    fecha: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'task',
+    modelName: 'tasks',
   });
   return task;
 };

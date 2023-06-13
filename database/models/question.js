@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
       });
 
-      question.belongsTo(models.task, {
+      question.belongsTo(models.tasks, {
         as: "questionTask",
         foreignKey: "taskid",
         onDelete: "CASCADE",

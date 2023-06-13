@@ -3,8 +3,8 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('task',{
-      idtask:{
+    await queryInterface.createTable('tasks',{
+      id:{
         allowNull: false,
         autoIncrement:true,
         primaryKey:true,
@@ -19,9 +19,13 @@ module.exports = {
       image:{
         type: Sequelize.STRING,
       },
-      fecha:{
+      createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
       },
       courseid:{
         type: Sequelize.INTEGER,
@@ -36,6 +40,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('task');
+    await queryInterface.dropTable('tasks');
   }
 };

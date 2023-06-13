@@ -4,7 +4,7 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class course extends Model {
     static associate(models) {
-      course.hasMany(models.task, {
+      course.hasMany(models.tasks, {
         as: 'courseTask',
         foreignKey: 'courseid',
         onDelete: 'CASCADE',
