@@ -1,5 +1,8 @@
 'use strict';
 
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../models');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -13,6 +16,21 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
       },
+
+      //campos de pablo
+      youwilllearn: {
+        type: Sequelize.ARRAY(DataTypes.STRING)
+      },
+      description: {
+        type: Sequelize.STRING,
+      },
+      level: {
+        type: Sequelize.STRING
+      },
+      image:{
+        type: Sequelize.STRING
+      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

@@ -2,12 +2,67 @@ const models = require('../../database/models/');
 const { fileUpload } = require('../utils/uploadFiles');
 
 // Controlador para crear un nuevo curso
+
+const updateCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
+    const { description } = req.body;
+    const { image } = req.body;
+    const {level} = req.body;
+    const {youwilllearn} = req.body
+    let _image = fileUpload(image, "/public");
+    _image = `${process.env.APP_BASE_URL}${_image}`;
+    
+    // Verifica si el curso existe en la base de datos
+    const course = await models.courses.findByPk(id);
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: 'Curso no encontrado'
+      });
+    }
+
+    // actualiza el curso de la base de datos
+    course.title = title;
+    course.description = description;
+    course.level = level;
+    course.youwilllearn = youwilllearn;
+    course.image = _image;
+    await course.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Curso Actualizado exitosamente'
+    });
+  } catch (error) {
+    console.error('Error al eliminar el curso:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al eliminar el curso',
+      error: error.message
+    });
+  }
+};
 const createCourse = async (req, res) => {
   try {
     const { title } = req.body;
+    const { description } = req.body;
+    const { image } = req.body;
+    const {level} = req.body;
+    const {youwilllearn} = req.body
+    let _image = fileUpload(image, "/public");
+    _image = `${process.env.APP_BASE_URL}${_image}`;
+
 
     // Crea el nuevo curso en la base de datos
-    const course = await models.courses.create({ title });
+    const course = await models.courses.create({
+      title,
+      description,
+      image:_image,
+      level,
+      youwilllearn
+    });
 
     res.status(201).json({
       success: true,
@@ -74,63 +129,34 @@ const deleteCourse = async (req, res) => {
   }
 };
 
-const updateCourse = async (req, res) => {
-  try{
-    const { id } = req.params;
-    const {title} = req.body;
-    // Verifica si el curso existe en la base de datos
-    const course = await models.courses.findByPk(id);
-    if (!course) {
-      return res.status(404).json({
-        success: false,
-        message: 'Curso no encontrado'
-      });
-    }
 
-    // actualiza el curso de la base de datos
-    course.title = title;
-    await course.save();
-
-    res.status(200).json({
-      success: true,
-      message: 'Curso Actualizado exitosamente'
-    });
-  }catch(error){
-    console.error('Error al eliminar el curso:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error al eliminar el curso',
-      error: error.message
-    });
-  }
-};
 
 //task
 
-const createtask = async (req, res) =>{
-  try{
-    const {id} = req.params;
-    const {title} =req.body;
-    const {description} = req.body;
-    const {image} = req.body;
+const createtask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
+    const { description } = req.body;
+    const { image } = req.body;
     let _image = fileUpload(image, "/public");
     _image = `${process.env.APP_BASE_URL}${_image}`;
     const findcourse = await models.courses.findByPk(id)
-    if(!findcourse){
+    if (!findcourse) {
       res.status(404).json({
         success: false,
         message: 'Curso no encontrado'
       });
-    }else{
+    } else {
       const task = await models.tasks.create({
         title,
-        description, 
+        description,
         image: _image,
         courseid: id
       })
       return res.status(201).send(task)
     }
-  }catch(error){
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: 'Error al eliminar el curso',
@@ -140,8 +166,8 @@ const createtask = async (req, res) =>{
 }
 
 const deletetaks = async (req, res) => {
-  try{
-    const {id} = req.params;
+  try {
+    const { id } = req.params;
     const task = await models.tasks.findByPk(id);
     if (!task) {
       return res.status(404).json({
@@ -149,13 +175,13 @@ const deletetaks = async (req, res) => {
         message: 'task no encontrado'
       });
     }
-     await task.destroy();
+    await task.destroy();
 
     res.status(200).json({
       success: true,
       message: 'Task eliminado exitosamente'
     });
-  }catch(error){
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: 'Error al eliminar el curso',
@@ -182,6 +208,8 @@ const getAllTasks = async (req, res) => {
     });
   }
 };
+
+//Metodos para Capitulos, temas
 
 module.exports = {
   createCourse,
