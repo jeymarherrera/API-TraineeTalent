@@ -28,7 +28,7 @@ const login = async (req, res) => {
 
         delete findUser.dataValues.password;
 
-        const token = jwt.sign({ userId: findUser.id }, JWT.SEED, { expiresIn: JWT.EXPIRES });
+        const token = jwt.sign({ userId: findUser.id, role: findEmail.role }, JWT.SEED, { expiresIn: JWT.EXPIRES });
         console.log(token)
 
         return res.status(200).send({ data: findUser, token: token });
