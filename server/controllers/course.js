@@ -177,7 +177,6 @@ module.exports = {
   createCourse,
   getAllCourses,
   deleteCourse,
-  updateCourse,
   createtask,
   deletetaks,
   getAllTasks,

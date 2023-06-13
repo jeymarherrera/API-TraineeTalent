@@ -7,8 +7,7 @@ const { sequelize } = require('../models');
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('courses', {
-      courseid: {
-      courseid: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -28,21 +27,20 @@ module.exports = {
       level: {
         type: Sequelize.STRING
       },
-      image:{
+      image: {
         type: Sequelize.STRING
       },
 
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
-        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       }
-        type: Sequelize.DATE
-      }
+
+
     });
   },
 

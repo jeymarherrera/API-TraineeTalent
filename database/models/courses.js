@@ -9,14 +9,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'courseid',
         onDelete: 'CASCADE',
       });
-      course.hasMany(models.chapters, {
+      courses.hasMany(models.chapters, {
         as: 'courseChapters',
         foreignKey: 'courseid',
         onDelete:"CASCADE",
       });
     }
   }
-  courses.init(
   courses.init(
     {
       title: DataTypes.STRING,
@@ -31,6 +30,5 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'courses',
     }
   );
-  return courses;
   return courses;
 };
