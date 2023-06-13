@@ -26,8 +26,8 @@ module.exports = {
       courseid:{
         type: Sequelize.INTEGER,
         references: {
-          model: "course",
-          key: "idcourse",
+          model: "courses",
+          key: "id",
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",

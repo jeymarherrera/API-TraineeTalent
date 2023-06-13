@@ -1,76 +1,50 @@
-const models = require('../../database/models');
+const models = require('../../database/models/');
 
-// Controlador para insertar un nuevo curso
-async function createCourse(req, res) {
+// Controlador para crear un nuevo curso
+const createCourse = async (req, res) => {
   try {
-    const { body } = req;
-    
-    // Crea un nuevo curso en la base de datos
-    const newCourse = await models.course.create({ title: body.title });
-    return res.status(201).send(newCourse);
-  } catch (error) {
-    console.log(error)
-    return res.status(500).json({ message: 'Error al crear el curso', error });
-  }
-}
-
-// Controlador para editar un curso existente
-async function updateCourse(req, res) {
-  try {
-    const courseId = req.params.id;
     const { title } = req.body;
-    
-    // Busca el curso por su ID en la base de datos
-    const course = await models.course.findByPk(courseId);
 
-    if (!course) {
-      return res.status(404).json({ message: 'Curso no encontrado' });
-    }
+    // Crea el nuevo curso en la base de datos
+    const course = await models.courses.create({ title });
 
-    // Actualiza el título del curso
-    await course.update({ title });
-
-    return res.status(200).json({ message: 'Curso actualizado exitosamente', course });
+    res.status(201).json({
+      success: true,
+      message: 'Curso creado exitosamente',
+      data: course
+    });
   } catch (error) {
-    return res.status(500).json({ message: 'Error al actualizar el curso', error });
+    console.error('Error al crear el curso:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al crear el curso',
+      error: error.message
+    });
   }
-}
+};
 
-// Controlador para eliminar un curso
-async function deleteCourse(req, res) {
+const getAllCourses = async (req, res) => {
   try {
-    const courseId = req.params.id;
-    
-    // Busca y elimina el curso por su ID en la base de datos
-    const deletedCourse = await Course.destroy({ where: { id: courseId } });
+    // Obtiene todos los cursos de la base de datos
+    const courses = await models.courses.findAll();
 
-    if (deletedCourse === 0) {
-      return res.status(404).json({ message: 'Curso no encontrado' });
-    }
-
-    return res.status(200).json({ message: 'Curso eliminado exitosamente' });
+    res.status(200).json({
+      success: true,
+      message: 'Cursos obtenidos exitosamente',
+      data: courses
+    });
   } catch (error) {
-    return res.status(500).json({ message: 'Error al eliminar el curso', error });
+    console.error('Error al obtener los cursos:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener los cursos',
+      error: error.message
+    });
   }
-}
+};
 
-
-//controlador para traer los cursos en la base de datos
-
-async function getCourses(req, res) {
-    try {
-      // Obtiene todos los cursos de la base de datos
-      const course = await Course.findAll();
-  
-      return res.status(200).json({ course });
-    } catch (error) {
-      return res.status(500).json({ message: 'Error al obtener los cursos', error });
-    }
-  }
 
 module.exports = {
   createCourse,
-  updateCourse,
-  deleteCourse,
-  getCourses
-};
+  getAllCourses
+}
