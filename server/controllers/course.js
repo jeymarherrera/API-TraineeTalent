@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const models = require('../../database/models/');
 const { fileUpload } = require('../utils/uploadFiles');
 
@@ -7,8 +8,8 @@ const createCourse = async (req, res) => {
     const { title } = req.body;
     const { description } = req.body;
     const { image } = req.body;
-    const {level} = req.body;
-    const {youwilllearn} = req.body
+    const { level } = req.body;
+    const { youwilllearn } = req.body
     let _image = fileUpload(image, "/public");
     _image = `${process.env.APP_BASE_URL}${_image}`;
 
@@ -17,20 +18,18 @@ const createCourse = async (req, res) => {
     const course = await models.courses.create({
       title,
       description,
-      image:_image,
+      image: _image,
       level,
       youwilllearn
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: 'Curso creado exitosamente',
       data: course
     });
 
-    return res.status(201).send(course);
 
-    return res.status(201).send(course);
   } catch (error) {
     console.error('Error al crear el curso:', error);
     res.status(500).json({
@@ -44,7 +43,7 @@ const createCourse = async (req, res) => {
 const getAllCourses = async (req, res) => {
   try {
     // Obtiene todos los cursos de la base de datos
-    const courses = await models.courses.findAll();
+    const courses = await models.courses.findAll()
 
     res.status(200).json({
       success: true,
@@ -60,6 +59,41 @@ const getAllCourses = async (req, res) => {
     });
   }
 };
+
+const getSelectedCourse = async (req, res) => {
+  try {
+    // Obtiene el curso seleccionado de la base de datos
+    const { id } = req.params;
+
+    const course = await models.courses.findAll({
+      where: {
+        id: id
+      },
+      include:
+      {
+        model: models.chapters,
+        as: 'courseChapters',
+        include: {
+          model: models.topics,
+          as: "chaptersTopics",
+        }
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Curso obtenido exitosamente',
+      data: course
+    });
+  } catch (error) {
+    console.error('Error al obtener el curso:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener el curso',
+      error: error.message
+    });
+  }
+}
 
 const deleteCourse = async (req, res) => {
   try {
@@ -78,6 +112,7 @@ const deleteCourse = async (req, res) => {
     await course.destroy();
 
     res.status(200).json({
+
       success: true,
       message: 'Curso eliminado exitosamente'
     });
@@ -171,11 +206,14 @@ const getAllTasks = async (req, res) => {
   }
 };
 
+
+
 //Metodos para Capitulos, temas
 
 module.exports = {
   createCourse,
   getAllCourses,
+  getSelectedCourse,
   deleteCourse,
   createtask,
   deletetaks,

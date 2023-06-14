@@ -12,8 +12,14 @@ module.exports = (sequelize, DataTypes) => {
       courses.hasMany(models.chapters, {
         as: 'courseChapters',
         foreignKey: 'courseid',
-        onDelete:"CASCADE",
+        onDelete: "CASCADE",
       });
+
+      /* courses.hasMany(models.topics, {
+         as: 'courseChapters',
+         foreignKey: 'courseid',
+         onDelete:"CASCADE",
+       });*/
     }
   }
   courses.init(
@@ -21,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       description: DataTypes.STRING,
       level: DataTypes.STRING,
-      youwilllearn:DataTypes.ARRAY(DataTypes.STRING),
+      youwilllearn: DataTypes.ARRAY(DataTypes.STRING),
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     },

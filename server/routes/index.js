@@ -4,7 +4,8 @@ const { addProfessional, editProfileProfessional } = require("../controllers/pro
 const { addCompany } = require("../controllers/companies");
 const { verifyToken } = require("../middlewares/auth");
 const { createCourse, 
-    getAllCourses, 
+    getAllCourses,
+    getSelectedCourse, 
     createtask,
     deleteCourse, 
     deletetaks,
@@ -30,6 +31,7 @@ router.post("/editarPerfilProfesional", verifyToken, editProfileProfessional);
 //cursos - adminitracion de un curso
 router.post("/crearcursos", createCourse);
 router.get("/traercursos", getAllCourses);
+router.get("/traerCursoSeleccionado/:id", getSelectedCourse)
 router.post("/borrarcurso/:id", deleteCourse);
 // router.post("/editarcurso/:id", updateCourse);
 //cursos - adminitracion de talleres del curso
