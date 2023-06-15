@@ -1,21 +1,16 @@
-const models = require('../../database/models/');
-const { fileUpload } = require('../utils/uploadFiles');
-
+const models = require("../../database/models");
+const { fileUpload } = require("../utils/uploadFiles");
+const { esImagenBase64 } = require("../utils/imageBase")
 // Controlador para crear un nuevo curso
 
 const updateCourse = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { title } = req.body;
-    const {description} = req.body;
-    const {level} = req.body;
-    const {youwilllearn} = req.body;
-    const {image} = req.body;
-    let _image = fileUpload(image, "/public");
-    _image = `${process.env.APP_BASE_URL}${_image}`;
+    const { id, title, description, level, youwilllearn, image } = req.params;
+
+    
 
     // Verifica si el curso existe en la base de datos
-    const course = await Course.findByPk(id);
+    const course = await models.courses.findByPk(id);
     if (!course) {
       return res.status(404).json({
         success: false,
@@ -25,7 +20,18 @@ const updateCourse = async (req, res) => {
 
     // Actualiza el título del curso
     course.title = title;
-    course.image =_image;
+
+    let _image = ""
+    if (esImagenBase64(image)) {
+      _image = fileUpload(image, "/public");
+      _image = `${process.env.APP_BASE_URL}${_image}`;
+      course.image = _image;
+
+    } else {
+      course.image = image;
+    }
+
+    
     course.description = description;
     course.level = level;
     course.youwilllearn = youwilllearn;
@@ -48,38 +54,34 @@ const updateCourse = async (req, res) => {
 
 const createCourse = async (req, res) => {
   try {
-    const { title } = req.body;
-    const { description } = req.body;
-    const { image } = req.body;
-    const { level } = req.body;
-    const { youwilllearn } = req.body
-    let _image = fileUpload(image, "/public");
-    _image = `${process.env.APP_BASE_URL}${_image}`;
+    const { body } = req;
+    console.log(body.data)
+    let image = fileUpload(body.image, "/public");
+    console.log(image)
 
+    image = `${process.env.APP_BASE_URL}${image}`;
 
     // Crea el nuevo curso en la base de datos
     const course = await models.courses.create({
-      title,
-      description,
-      image: _image,
-      level,
-      youwilllearn
+      title: body.title,
+      description: body.description,
+      image,
+      level: body.level,
+      youwilllearn: body.youwilllearn
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: 'Curso creado exitosamente',
       data: course
     });
 
-    return res.status(201).send(course);
 
   } catch (error) {
     console.error('Error al crear el curso:', error);
     res.status(500).json({
       success: false,
       message: 'Error al crear el curso',
-      error: error.message,
       error: error.message,
     });
   }

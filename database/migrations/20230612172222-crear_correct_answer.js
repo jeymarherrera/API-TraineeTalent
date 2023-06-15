@@ -4,7 +4,7 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('correct_answer', {
-      idanswer: {
+      id: {
         llowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references:{
           model: "options_answers",
-          key: "idoption",
+          key: "id",
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",

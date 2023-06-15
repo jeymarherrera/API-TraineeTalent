@@ -13,7 +13,6 @@ const { createCourse,
 } = require("../controllers/course");
 
 const { Router } = require("express");
-
 const router = Router();
 
 //registro
@@ -28,7 +27,7 @@ router.post("/recuperarContrasena", recoverByEmail);
 
 //editar Perfil
 router.post("/editarPerfilProfesional", verifyToken, editProfileProfessional);
-//cursos - adminitracion de un curso
+//cursos - adminitracion de  un curso
 router.post("/crearcursos", createCourse);
 router.get("/listarcursos", getAllCourses);
 router.post("/borrarcurso/:id", deleteCourse);

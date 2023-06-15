@@ -4,7 +4,7 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('question', {
-      idquestion: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: "tasks",
-          key: "idtask",
+          key: "id",
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
