@@ -8,39 +8,38 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('courses', {
       courseid: {
-      id: {
-        allowNull: false,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      title: {
-        type: Sequelize.STRING,
-      },
+        id: {
+          allowNull: false,
+          primaryKey: true,
+          type: Sequelize.INTEGER,
+        },
+        title: {
+          type: Sequelize.STRING,
+        },
 
-      //campos de pablo
-      youwilllearn: {
-        type: Sequelize.ARRAY(DataTypes.STRING)
-      },
-      description: {
-        type: Sequelize.STRING,
-      },
-      level: {
-        type: Sequelize.STRING
-      },
-      image: {
-        type: Sequelize.STRING(99999)
-      },
+        //campos de pablo
+        youwilllearn: {
+          type: Sequelize.ARRAY(DataTypes.STRING)
+        },
+        description: {
+          type: Sequelize.STRING,
+        },
+        level: {
+          type: Sequelize.STRING
+        },
+        image: {
+          type: Sequelize.STRING(99999)
+        },
+        createdAt: {
+          allowNull: false,
+          type: Sequelize.DATE
+        },
+        updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE
+        }
 
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
       }
-
-
     });
   },
 

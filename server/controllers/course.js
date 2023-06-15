@@ -7,8 +7,6 @@ const updateCourse = async (req, res) => {
   try {
     const { id, title, description, level, youwilllearn, image } = req.params;
 
-
-
     // Verifica si el curso existe en la base de datos
     const course = await models.courses.findByPk(id);
     if (!course) {
