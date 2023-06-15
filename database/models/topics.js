@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
   topics.init({
     title: DataTypes.STRING,
     description: DataTypes.STRING,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'topics',

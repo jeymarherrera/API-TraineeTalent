@@ -40,6 +40,38 @@ const createCourse = async (req, res) => {
     });
   }
 };
+
+const createChapter = async (req, res) => {
+  try {
+    const { title } = req.body;
+    const { chapternum } = req.body;
+    const { courseid } = req.body;
+
+    // Crea el Capitulo en la base de datos
+    const chapter = await models.chapters.create({
+      title,
+      chapternum,
+      courseid,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: 'Capitulo creado exitosamente',
+      data: chapter
+    });
+
+
+  } catch (error) {
+    console.error('Error al crear el capitulo:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al crear el capitulo',
+      error: error.message,
+    });
+  }
+};
+
+
 const getAllCourses = async (req, res) => {
   try {
     // Obtiene todos los cursos de la base de datos
@@ -212,6 +244,7 @@ const getAllTasks = async (req, res) => {
 
 module.exports = {
   createCourse,
+  createChapter,
   getAllCourses,
   getSelectedCourse,
   deleteCourse,
