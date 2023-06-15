@@ -7,7 +7,7 @@ const updateCourse = async (req, res) => {
   try {
     const { id, title, description, level, youwilllearn, image } = req.params;
 
-    
+
 
     // Verifica si el curso existe en la base de datos
     const course = await models.courses.findByPk(id);
@@ -20,9 +20,12 @@ const updateCourse = async (req, res) => {
 
     // Actualiza el título del curso
     course.title = title;
-
+    course.description = description;
+    course.level = level;
+    course.youwilllearn = youwilllearn;
     let _image = ""
     if (esImagenBase64(image)) {
+      console.log("es base64")
       _image = fileUpload(image, "/public");
       _image = `${process.env.APP_BASE_URL}${_image}`;
       course.image = _image;
@@ -31,10 +34,8 @@ const updateCourse = async (req, res) => {
       course.image = image;
     }
 
-    
-    course.description = description;
-    course.level = level;
-    course.youwilllearn = youwilllearn;
+
+
     await course.save();
 
     res.status(200).json({
