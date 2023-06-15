@@ -1,10 +1,13 @@
 'use strict';
 
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../models');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('courses', {
-      courseid: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -13,11 +16,21 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
       },
-     statusDelete: {
-        allowNull: false,
-        defaultValue: false,
-        type: Sequelize.BOOLEAN,
+
+      //campos de pablo
+      youwilllearn: {
+        type: Sequelize.ARRAY(DataTypes.STRING)
       },
+      description: {
+        type: Sequelize.STRING,
+      },
+      level: {
+        type: Sequelize.STRING
+      },
+      image: {
+        type: Sequelize.STRING(99999)
+      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -26,7 +39,8 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    }
+    );
   },
 
   async down(queryInterface, Sequelize) {

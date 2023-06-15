@@ -9,21 +9,20 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'courseid',
         onDelete: 'CASCADE',
       });
+      courses.hasMany(models.chapters, {
+        as: 'courseChapters',
+        foreignKey: 'courseid',
+        onDelete:"CASCADE",
+      });
     }
   }
   courses.init(
     {
-      
-    courseid: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      
+      title: DataTypes.STRING,
+      description: DataTypes.STRING,
+      level: DataTypes.STRING,
+      youwilllearn:DataTypes.ARRAY(DataTypes.STRING),
+      image:DataTypes.STRING(99999),
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     },

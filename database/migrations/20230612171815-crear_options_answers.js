@@ -6,7 +6,7 @@ const { QueryInterface } = require('sequelize');
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('options_answers',{
-      idoption: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references:{
           model: "question",
-          key: "idquestion",
+          key: "id",
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
