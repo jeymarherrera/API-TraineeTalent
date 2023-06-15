@@ -7,9 +7,9 @@ const { sequelize } = require('../models');
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('courses', {
+      courseid: {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(99999)
       },
 
       createdAt: {

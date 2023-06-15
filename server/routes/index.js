@@ -14,7 +14,6 @@ const { createCourse,
 } = require("../controllers/course");
 
 const { Router } = require("express");
-
 const router = Router();
 
 //registro
@@ -29,7 +28,7 @@ router.post("/recuperarContrasena", recoverByEmail);
 
 //editar Perfil
 router.post("/editarPerfilProfesional", verifyToken, editProfileProfessional);
-//cursos - adminitracion de un curso
+//cursos - adminitracion de  un curso
 router.post("/crearcursos", createCourse);
 router.post("/crearCapitulo", createChapter);
 router.get("/listarcursos", getAllCourses);
@@ -39,7 +38,8 @@ router.post("/borrarcurso/:id", deleteCourse);
 //cursos - adminitracion de talleres del curso
 router.post("/creartask/:id", createtask);
 router.post("/borrartask/:id", deletetaks);
-router.get("/traertask", getAllTasks)
+router.get("/traertask", getAllTasks);
+
 
 
 router.get("/verifyToken", verifyToken);
