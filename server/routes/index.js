@@ -6,13 +6,12 @@ const { verifyToken } = require("../middlewares/auth");
 const { createCourse,
     getAllCourses,
     createChapter,
-    getSelectedCourse,
     createtask,
     deleteCourse,
     deletetaks,
     getAllTasks,
 } = require("../controllers/course");
-
+const { getSelectedCourse } = require("../controllers/infoCourse")
 const { Router } = require("express");
 const router = Router();
 
