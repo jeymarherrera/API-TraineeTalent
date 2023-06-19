@@ -2,6 +2,7 @@ const { login } = require("../controllers/login");
 const { recoverByEmail } = require("../controllers/recoverPassword");
 const { addProfessional, editProfileProfessional } = require("../controllers/professionals");
 const { addCompany, getAllProjects } = require("../controllers/companies");
+const { getProfessionals } = require("../controllers/getProfessionals");
 const { verifyToken } = require("../middlewares/auth");
 const { createCourse,
     getAllCourses,
@@ -39,6 +40,8 @@ router.post("/creartask/:id", createtask);
 router.post("/borrartask/:id", deletetaks);
 router.get("/traertask", getAllTasks);
 
+//Reclutamiento de profesionales
+router.get("/traerProfesionales", getProfessionals);
 
 
 router.get("/verifyToken", verifyToken);

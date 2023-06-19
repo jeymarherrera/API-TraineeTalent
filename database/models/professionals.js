@@ -34,7 +34,33 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
     credentialsId: DataTypes.INTEGER,
     addressesId: DataTypes.INTEGER,
-    statusDelete: DataTypes.BOOLEAN
+    statusDelete: DataTypes.BOOLEAN,
+
+
+    // Cursosobtenidos
+    // id
+    // idpago
+    // idcurso
+    // idprofesional
+
+    // languajesProfesional
+    // idlenguajeProfesional
+    // idlenguaje
+    // idnivelenguaje
+    // idProfesional
+
+    // lenguajes
+    // id
+    // nombre
+
+    // nivelLenguaje
+    // idnivellenguaje
+    // quees 
+
+    // 1: basico
+    // 2: intermedio
+
+
   }, {
     sequelize,
     modelName: 'professionals',
