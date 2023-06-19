@@ -1,7 +1,7 @@
 const { login } = require("../controllers/login");
 const { recoverByEmail } = require("../controllers/recoverPassword");
 const { addProfessional, editProfileProfessional } = require("../controllers/professionals");
-const { addCompany } = require("../controllers/companies");
+const { addCompany, getAllProjects } = require("../controllers/companies");
 const { verifyToken } = require("../middlewares/auth");
 const { createCourse,
     getAllCourses,
@@ -43,4 +43,7 @@ router.get("/traertask", getAllTasks);
 
 router.get("/verifyToken", verifyToken);
 
-module.exports = { router };
+//postulaciones
+router.get('/projects', getAllProjects)
+
+module.exports = {router};

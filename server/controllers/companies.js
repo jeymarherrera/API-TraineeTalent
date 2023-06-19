@@ -48,6 +48,35 @@ const addCompany = async (req, res) => {
     }
 };
 
+async function getAllProjects(req, res) {
+  try {
+    const projects = await models.Project.findAll({
+      include: [
+        {
+          model: models.companies,
+          as: "company",
+          attributes: ["name"],
+        },
+      ],
+    });
+
+    const projectData = projects.map((project) => project.toJSON());
+
+    console.log(projectData);
+
+    return res.status(200).json({
+      success: true,
+      message: "Success",
+      data: projectData,
+    });
+  } catch (error) {
+    console.error("Error al obtener los proyectos de la base de datos:", error);
+    return res
+      .status(500)
+      .send("Error al obtener los proyectos de la base de datos");
+  }
+}
+
 module.exports = {
-    addCompany
+    addCompany, getAllProjects
 };
