@@ -11,11 +11,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "chapterid",
         onDelete: "CASCADE",
       });
+
     }
   }
   topics.init({
     title: DataTypes.STRING,
     description: DataTypes.STRING,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'topics',

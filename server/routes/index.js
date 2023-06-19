@@ -2,16 +2,17 @@ const { login } = require("../controllers/login");
 const { recoverByEmail } = require("../controllers/recoverPassword");
 const { addProfessional, editProfileProfessional } = require("../controllers/professionals");
 const { addCompany, getAllProjects } = require("../controllers/companies");
+const { getProfessionals } = require("../controllers/getProfessionals");
 const { verifyToken } = require("../middlewares/auth");
-const { createCourse, 
-    getAllCourses, 
+const { createCourse,
+    getAllCourses,
+    createChapter,
     createtask,
-    deleteCourse, 
-    updateCourse, 
+    deleteCourse,
     deletetaks,
     getAllTasks,
 } = require("../controllers/course");
-
+const { getSelectedCourse } = require("../controllers/infoCourse")
 const { Router } = require("express");
 const router = Router();
 
@@ -29,14 +30,18 @@ router.post("/recuperarContrasena", recoverByEmail);
 router.post("/editarPerfilProfesional", verifyToken, editProfileProfessional);
 //cursos - adminitracion de  un curso
 router.post("/crearcursos", createCourse);
+router.post("/crearCapitulo", createChapter);
 router.get("/listarcursos", getAllCourses);
+router.get("/traerCursoSeleccionado/:id", getSelectedCourse)
 router.post("/borrarcurso/:id", deleteCourse);
-router.post("/editarcurso/:id", updateCourse);
+// router.post("/editarcurso/:id", updateCourse);
 //cursos - adminitracion de talleres del curso
 router.post("/creartask/:id", createtask);
 router.post("/borrartask/:id", deletetaks);
 router.get("/traertask", getAllTasks);
 
+//Reclutamiento de profesionales
+router.get("/traerProfesionales", getProfessionals);
 
 
 router.get("/verifyToken", verifyToken);

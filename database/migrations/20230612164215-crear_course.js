@@ -7,40 +7,40 @@ const { sequelize } = require('../models');
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('courses', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      title: {
-        type: Sequelize.STRING,
-      },
+      courseid: {
+        id: {
+          allowNull: false,
+          primaryKey: true,
+          type: Sequelize.INTEGER,
+        },
+        title: {
+          type: Sequelize.STRING,
+        },
 
-      //campos de pablo
-      youwilllearn: {
-        type: Sequelize.ARRAY(DataTypes.STRING)
-      },
-      description: {
-        type: Sequelize.STRING,
-      },
-      level: {
-        type: Sequelize.STRING
-      },
-      image: {
-        type: Sequelize.STRING(99999)
-      },
+        //campos de pablo
+        youwilllearn: {
+          type: Sequelize.ARRAY(DataTypes.STRING)
+        },
+        description: {
+          type: Sequelize.STRING,
+        },
+        level: {
+          type: Sequelize.STRING
+        },
+        image: {
+          type: Sequelize.STRING(99999)
+        },
+        createdAt: {
+          allowNull: false,
+          type: Sequelize.DATE
+        },
+        updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE
+        }
 
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
       }
-    }
-    );
+    });
   },
 
   async down(queryInterface, Sequelize) {

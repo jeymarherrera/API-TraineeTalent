@@ -7,8 +7,6 @@ const updateCourse = async (req, res) => {
   try {
     const { id, title, description, level, youwilllearn, image } = req.params;
 
-
-
     // Verifica si el curso existe en la base de datos
     const course = await models.courses.findByPk(id);
     if (!course) {
@@ -87,10 +85,42 @@ const createCourse = async (req, res) => {
     });
   }
 };
+
+const createChapter = async (req, res) => {
+  try {
+    const { title } = req.body;
+    const { chapternum } = req.body;
+    const { courseid } = req.body;
+
+    // Crea el Capitulo en la base de datos
+    const chapter = await models.chapters.create({
+      title,
+      chapternum,
+      courseid,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: 'Capitulo creado exitosamente',
+      data: chapter
+    });
+
+
+  } catch (error) {
+    console.error('Error al crear el capitulo:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al crear el capitulo',
+      error: error.message,
+    });
+  }
+};
+
+
 const getAllCourses = async (req, res) => {
   try {
     // Obtiene todos los cursos de la base de datos
-    const courses = await models.courses.findAll();
+    const courses = await models.courses.findAll()
 
     res.status(200).json({
       success: true,
@@ -106,6 +136,7 @@ const getAllCourses = async (req, res) => {
     });
   }
 };
+
 
 const deleteCourse = async (req, res) => {
   try {
@@ -124,6 +155,7 @@ const deleteCourse = async (req, res) => {
     await course.destroy();
 
     res.status(200).json({
+
       success: true,
       message: 'Curso eliminado exitosamente'
     });
@@ -217,13 +249,15 @@ const getAllTasks = async (req, res) => {
   }
 };
 
+
+
 //Metodos para Capitulos, temas
 
 module.exports = {
   createCourse,
+  createChapter,
   getAllCourses,
   deleteCourse,
-  updateCourse,
   createtask,
   deletetaks,
   getAllTasks,
