@@ -2,29 +2,15 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('areas', {
+    await queryInterface.createTable('lenguajes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-  
-            experiencia: {
+      titulo: {
         type: Sequelize.STRING
-      },
-             Aru_vue: {
-        type: Sequelize.INTEGER
-      },
-      
-      professionalsId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "professionals",
-          key: "id",
-        },
-        onDeleted: "CASCADE",
-        onUpdated: "CASCADE",
       },
       statusDelete: {
         allowNull: false,
@@ -42,6 +28,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('areas');
+    await queryInterface.dropTable('lenguajes');
   }
 };

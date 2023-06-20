@@ -29,10 +29,19 @@ const addProfessional = async (req, res) => {
                 state: body.state,
                 street: body.street,
             });
+                        const experiencia = await models.experiencia.create({
+                company: body.company,
+                titulo: body.titulo,
+                location: body.location,
+               ini_mont: body.ini_mont,
+                ini_year: body.ini_year,
+            end_mont: body.end_mont,
+                end_year: body.end_year,
+            });
 
             const professional = await models.professionals.create({
-                name: body.name,
-                lastname: body.gender,
+                nombre: body.nombre,
+                profesion: body.profesion,
                 gender: body.gender,
                 birthdate: body.birthdate,
                 identification: body.identification,
@@ -40,8 +49,13 @@ const addProfessional = async (req, res) => {
                 salary_expectation: body.salary_expectation,
                 availability: body.availability,
                 image,
+                aboutme: body.aboutme,
+                social_link: body.social_link,
+                social_git: body.social_git,
+                cv_me: body.cv_me,
                 credentialsId: credential.id,
-                addressesId: address.id
+                addressesId: address.id,
+                experienciaId: experiencia.id
             });
 
             return res.status(201).send(professional);

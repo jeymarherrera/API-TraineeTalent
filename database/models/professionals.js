@@ -10,6 +10,17 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "addressesId",
         onDelete: "CASCADE",
       });
+            professionals.belongsTo(models.educacion, {
+        as: "educacionProfessionals",
+        foreignKey: "educacionId",
+        onDelete: "CASCADE",
+            });
+      
+       professionals.belongsTo(models.experiencia, {
+        as: "experienciaProfessionals",
+        foreignKey: "experienciaId",
+        onDelete: "CASCADE",
+      });
       professionals.belongsTo(models.credentials, {
         as: "credentialsProfessionals",
         foreignKey: "credentialsId",
@@ -23,8 +34,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   professionals.init({
-    name: DataTypes.STRING,
-    lastname: DataTypes.STRING,
+    nombre: DataTypes.STRING,
+    profesion: DataTypes.STRING,
     gender: DataTypes.STRING,
     birthdate: DataTypes.DATE,
     phone: DataTypes.STRING,
@@ -32,35 +43,15 @@ module.exports = (sequelize, DataTypes) => {
     salary_expectation: DataTypes.INTEGER,
     availability: DataTypes.INTEGER,
     image: DataTypes.STRING,
+    aboutme: DataTypes.STRING,
+    social_link: DataTypes.STRING,
+    social_git: DataTypes.STRING,
+    cv_me: DataTypes.STRING,
     credentialsId: DataTypes.INTEGER,
     addressesId: DataTypes.INTEGER,
-    statusDelete: DataTypes.BOOLEAN,
-
-
-    // Cursosobtenidos
-    // id
-    // idpago
-    // idcurso
-    // idprofesional
-
-    // languajesProfesional
-    // idlenguajeProfesional
-    // idlenguaje
-    // idnivelenguaje
-    // idProfesional
-
-    // lenguajes
-    // id
-    // nombre
-
-    // nivelLenguaje
-    // idnivellenguaje
-    // quees 
-
-    // 1: basico
-    // 2: intermedio
-
-
+    educacionId: DataTypes.INTEGER,
+    experienciaId: DataTypes.INTEGER,
+    statusDelete: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'professionals',
