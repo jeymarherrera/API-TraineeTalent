@@ -2,30 +2,35 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('areas', {
+    await queryInterface.createTable('experiencia', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-  
-            experiencia: {
+      company: {
         type: Sequelize.STRING
       },
-             Aru_vue: {
-        type: Sequelize.INTEGER
+            titulo: {
+        type: Sequelize.STRING
       },
-      
-      professionalsId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "professionals",
-          key: "id",
-        },
-        onDeleted: "CASCADE",
-        onUpdated: "CASCADE",
+                  locacion: {
+        type: Sequelize.STRING
       },
+                   ini_mont: {
+        type: Sequelize.STRING
+      },
+      ini_year: {
+        type: Sequelize.STRING
+      },
+            end_mont: {
+        type: Sequelize.STRING
+      },
+     end_year: {
+        type: Sequelize.STRING
+      },
+                  
       statusDelete: {
         allowNull: false,
         defaultValue: false,
@@ -42,6 +47,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('areas');
+    await queryInterface.dropTable('experiencia');
   }
 };

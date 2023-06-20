@@ -9,10 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      nombre: {
         type: Sequelize.STRING
       },
-      lastname: {
+            profesion: {
         type: Sequelize.STRING
       },
       gender: {
@@ -36,6 +36,18 @@ module.exports = {
       image: {
         type: Sequelize.STRING
       },
+            aboutme: {
+        type: Sequelize.STRING
+      },
+                  social_link: {
+        type: Sequelize.STRING
+      },
+            social_git: {
+        type: Sequelize.STRING
+      },
+            cv_me: {
+        type: Sequelize.STRING
+      },
       credentialsId: {
         type: Sequelize.INTEGER,
         references: {
@@ -54,6 +66,8 @@ module.exports = {
         onDeleted: "CASCADE",
         onUpdated: "CASCADE",
       },
+         
+
       statusDelete: {
         allowNull: false,
         defaultValue: false,
