@@ -1,15 +1,30 @@
 
 const models = require("../../database/models");
+const { Op } = require("sequelize");
 
 const getAllProfessionals = async (req, res) => {
     try {
 
         const professionals = await models.professionals.findAll({
+            order: [
+                ['id', 'ASC']
+            ],
             include: [
                 {
                     model: models.addresses,
                     as: "addressesProfessionals",
-                    required: true,
+                },
+                {
+                    model: models.experiencia,
+                    as: "experienciaProfessionals",
+                },
+                {
+                    model: models.areas,
+                    as: "areasProfessionals",
+                    include: {
+                        model: models.lenguaje,
+                        as: "lenguajeProfessionals",
+                    }
                 },
             ]
         });
@@ -35,27 +50,45 @@ const getAllProfessionals = async (req, res) => {
 const getProfessionals = async (req, res) => {
     try {
         const { body } = req;
-        console.log(body);
-        let languajes = body.input1;
-        let experience = body.input2;
-        let residency = body.input3;
-        let area_interest = body.input4;
-        let salary_expectation = body.input5;
 
+        console.log(body);
+
+        let languajes = body.input1;
+        let residency = body.input2;
+        let area_interest = body.input3;
+        let salary_expectation = body.input4;
+
+        
         const professionals = await models.professionals.findAll({
             where: {
-
+                salary_expectation: {
+                    [Op.lte]: salary_expectation
+                },
+                profesion: area_interest,
             },
             include: [
                 {
                     model: models.addresses,
                     as: "addressesProfessionals",
+                    where: {
+                        country: {
+                            [Op.eq]: residency
+                        },
+                    },
+                },
+                {
+                    model: models.experiencia,
+                    as: "experienciaProfessionals",
                     required: true,
                 },
                 {
-                    model: models.credentials,
-                    as: "credentialsProfessionals",
+                    model: models.areas,
+                    as: "areasProfessionals",
                     required: true,
+                    include: {
+                        model: models.lenguaje,
+                        as: "lenguajeProfessionals",
+                    }
                 },
             ]
         });

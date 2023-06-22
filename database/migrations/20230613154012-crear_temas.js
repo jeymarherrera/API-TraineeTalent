@@ -2,8 +2,8 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('topics',{
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('topics', {
 
       id: {
         allowNull: false,
@@ -11,17 +11,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      title:{
+      title: {
         type: Sequelize.STRING
       },
-      description:{
+      description: {
         type: Sequelize.STRING,
       },
-      chapterid:{
+      chapterid: {
         type: Sequelize.INTEGER,
         references: {
           model: "chapters",
-          key:"id"
+          key: "id"
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
@@ -38,7 +38,7 @@ module.exports = {
     })
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('topics');
   }
 };
