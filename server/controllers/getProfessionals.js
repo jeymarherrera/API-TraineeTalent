@@ -58,36 +58,60 @@ const getProfessionals = async (req, res) => {
         let area_interest = body.input3;
         let salary_expectation = body.input4;
 
-        
+        console.log(languajes);
+
+        // let queryLanguajes = '';
+        // function setQueryLanguajes() {
+        //     let queryaux = '';
+        //     languajes.forEach((element, index) => {
+        //         if (Object.is(languajes.length - 1, index)) {
+        //             queryaux = `${queryaux}${element}`;
+        //         } else {
+        //             queryaux = queryaux + `${element} AND `;
+        //         }
+        //     });
+        //     return queryaux;
+        // }
+        // queryLanguajes = setQueryLanguajes();
+        // console.log(queryLanguajes);
+
         const professionals = await models.professionals.findAll({
-            where: {
+            where: salary_expectation ? {
                 salary_expectation: {
                     [Op.lte]: salary_expectation
                 },
-                profesion: area_interest,
-            },
+            } : {},
+            where: area_interest ? {
+                profesion: {
+                    [Op.iLike]: area_interest
+                },
+            } : {},
             include: [
                 {
                     model: models.addresses,
                     as: "addressesProfessionals",
-                    where: {
+                    where: residency ? {
                         country: {
-                            [Op.eq]: residency
+                            [Op.iLike]: residency
                         },
-                    },
+                    } : {},
                 },
                 {
                     model: models.experiencia,
                     as: "experienciaProfessionals",
-                    required: true,
                 },
                 {
                     model: models.areas,
                     as: "areasProfessionals",
-                    required: true,
                     include: {
                         model: models.lenguaje,
                         as: "lenguajeProfessionals",
+                        required: false,
+                        where: languajes ? {
+                            titulo: {
+                                [Op.in]: languajes,
+                            },
+                        } : {},
                     }
                 },
             ]
