@@ -51,9 +51,16 @@ const getProfessionals = async (req, res) => {
     try {
         const { body } = req;
 
+        console.log(body.input1.length)
         console.log(body);
 
-        let languajes = body.input1;
+        let languajes;
+        if (body.input1.length === 0) {
+            languajes = '';
+        }
+        else {
+            languajes = body.input1;
+        }
         let residency = body.input2;
         let area_interest = body.input3;
         let salary_expectation = body.input4;
@@ -76,25 +83,36 @@ const getProfessionals = async (req, res) => {
         // console.log(queryLanguajes);
 
         const professionals = await models.professionals.findAll({
-            where: salary_expectation ? {
-                salary_expectation: {
-                    [Op.lte]: salary_expectation
-                },
-            } : {},
-            where: area_interest ? {
-                profesion: {
-                    [Op.iLike]: area_interest
-                },
-            } : {},
+            where: {
+                [Op.and]: [
+                    salary_expectation ? {
+                        salary_expectation: {
+                            [Op.lte]: salary_expectation
+                        },
+                    } : {},
+                    area_interest ? {
+                        profesion: {
+                            [Op.iLike]: area_interest
+                        },
+                    } : {},
+                    residency ? {
+                        '$addressesProfessionals.country$': {
+                            [Op.iLike]: residency
+                        },
+                    } : {},
+                    languajes ? {
+                        '$areasProfessionals.lenguajeProfessionals.titulo$': {
+                            [Op.iLike]: {
+                                [Op.any]: languajes
+                            }
+                        },
+                    } : {},
+                ],
+            },
             include: [
                 {
                     model: models.addresses,
                     as: "addressesProfessionals",
-                    where: residency ? {
-                        country: {
-                            [Op.iLike]: residency
-                        },
-                    } : {},
                 },
                 {
                     model: models.experiencia,
@@ -106,15 +124,9 @@ const getProfessionals = async (req, res) => {
                     include: {
                         model: models.lenguaje,
                         as: "lenguajeProfessionals",
-                        required: false,
-                        where: languajes ? {
-                            titulo: {
-                                [Op.in]: languajes,
-                            },
-                        } : {},
                     }
                 },
-            ]
+            ],
         });
 
         return res.status(200).json({
