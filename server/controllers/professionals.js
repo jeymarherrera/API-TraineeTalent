@@ -39,6 +39,14 @@ const addProfessional = async (req, res) => {
                 end_year: body.end_year,
             });
 
+        const educacions = await models.educacions.create({
+                nombre: body.universidad,
+                titulo: body.titulo2,
+               ini_mont: body.ini_mont,
+                ini_year: body.ini_year,
+            end_mont: body.end_mont,
+                end_year: body.end_year,
+            });
             const professional = await models.professionals.create({
                 nombre: body.nombre,
                 profesion: body.profesion,
@@ -46,16 +54,10 @@ const addProfessional = async (req, res) => {
                 birthdate: body.birthdate,
                 identification: body.identification,
                 phone: body.phone,
-                salary_expectation: body.salary_expectation,
-                availability: body.availability,
-                image,
-                aboutme: body.aboutme,
-                social_link: body.social_link,
-                social_git: body.social_git,
-                cv_me: body.cv_me,
                 credentialsId: credential.id,
                 addressesId: address.id,
-                experienciaId: experiencia.id
+                experienciaId: experiencia.id,
+                educacionId: educacions.id
             });
 
             return res.status(201).send(professional);

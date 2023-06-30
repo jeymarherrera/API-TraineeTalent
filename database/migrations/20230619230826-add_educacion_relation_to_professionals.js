@@ -5,7 +5,7 @@ module.exports = {
     await queryInterface.addColumn('professionals', 'educacionId', {
       type: Sequelize.INTEGER,
       references: {
-        model: 'educacion',
+        model: 'educacions',
         key: 'id'
       },
       onDelete: 'CASCADE',

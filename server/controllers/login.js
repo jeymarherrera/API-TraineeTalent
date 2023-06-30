@@ -24,19 +24,19 @@ const login = async (req, res) => {
         }
 
         if (!bcrypt.compareSync(body.password, findEmail.password))
-            return res.status(404).send("Contraseña incorrecta!");
+            return res.status(404).json("Contraseña incorrecta!");
 
         delete findUser.dataValues.password;
 
         const token = jwt.sign({ userId: findUser.id, role: findEmail.role }, JWT.SEED, { expiresIn: JWT.EXPIRES });
         console.log(token)
 
-        return res.status(200).send({ data: findUser, token: token });
+        return res.status(200).json({ data: findUser, token: token });
 
     } catch (error) {
         return res
             .status(500)
-            .send("Lo sentimos ha ocurrido un error en el servidor");
+            .json("Lo sentimos ha ocurrido un error en el servidor");
     }
 }
 

@@ -20,7 +20,7 @@ const addCompany = async (req, res) => {
             const credential = await models.credentials.create({
                 email: body.email,
                 password,
-                role: "Compañía",
+                role: "Company",
             });
 
             const address = await models.addresses.create({
