@@ -1,7 +1,7 @@
 const { login } = require("../controllers/login");
 const { recoverByEmail } = require("../controllers/recoverPassword");
 const { addProfessional, editProfileProfessional } = require("../controllers/professionals");
-const { addCompany, getAllProjects } = require("../controllers/companies");
+const { addCompany, getAllProjects, getSelectedProject } = require("../controllers/companies");
 const { getProfessionals } = require("../controllers/getProfessionals");
 const { verifyToken } = require("../middlewares/auth");
 const { createCourse,
@@ -12,8 +12,12 @@ const { createCourse,
     deletetaks,
     getAllTasks,
 } = require("../controllers/course");
+const { pay, success } = require("../controllers/paypal");
 const { getSelectedCourse } = require("../controllers/infoCourse")
+
+
 const { Router } = require("express");
+const { addProduct, getCartContent, getAllProducts, removeProduct } = require("../controllers/cart");
 const router = Router();
 
 //registro
@@ -47,6 +51,17 @@ router.get("/traerProfesionales", getProfessionals);
 router.get("/verifyToken", verifyToken);
 
 //postulaciones
-router.get('/projects', getAllProjects)
+router.get('/projects',verifyToken, getAllProjects)
 
+router.get('/project/:id', getSelectedProject)
+
+//paypal
+router.post('/pay', pay);
+router.get('/success', success)
+
+
+//canasta de compras
+router.post('/cart/add', addProduct)
+router.get('/cart', getAllProducts)
+router.delete('/cart/remove/:id', removeProduct)
 module.exports = {router};

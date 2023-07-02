@@ -28,6 +28,9 @@ module.exports = {
       image: {
         type: Sequelize.STRING(99999)
       },
+      pice: {
+        type: Sequelize.FLOAT,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -41,5 +44,5 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('courses');
-  }
+  },
 };
