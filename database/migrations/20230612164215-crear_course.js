@@ -7,26 +7,28 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('courses', {
       id: {
-        autoIncrement: true,
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
       },
-      //campos de pablo
       youwilllearn: {
-        type: Sequelize.ARRAY(DataTypes.STRING)
+        type: DataTypes.ARRAY(DataTypes.STRING)
       },
       description: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
       },
       level: {
         type: Sequelize.STRING
       },
       image: {
         type: Sequelize.STRING(99999)
+      },
+      pice: {
+        type: Sequelize.FLOAT,
       },
       createdAt: {
         allowNull: false,
@@ -40,5 +42,5 @@ module.exports = {
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('courses');
-  }
+  },
 };

@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       level: DataTypes.STRING,
       youwilllearn:DataTypes.ARRAY(DataTypes.STRING),
       image:DataTypes.STRING(99999),
+      price:DataTypes.FLOAT,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     },

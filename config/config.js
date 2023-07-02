@@ -2,6 +2,15 @@ require("dotenv").config();
 
 const nodemailer = require('nodemailer');
 
+const paypal = require("paypal-rest-sdk");
+
+paypal.configure({
+  mode: process.env.PAYPAL_MODE,
+  client_id: process.env.PAYPAL_CLIENT_ID,
+  client_secret: process.env.PAYPAL_CLIENT_SECRET
+});
+
+
 const transporter = nodemailer.createTransport({
   host: process.env.MAIL_HOST,
   port: 587,
@@ -27,5 +36,7 @@ module.exports = {
     SEED: process.env.JWT_SEED,
     EXPIRES: process.env.JWT_EXPIRES
   },
-  TRANSPORTER: transporter
+  TRANSPORTER: transporter,
+
+  paypal
 };
