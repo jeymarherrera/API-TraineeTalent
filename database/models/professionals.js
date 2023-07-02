@@ -14,9 +14,8 @@ module.exports = (sequelize, DataTypes) => {
         as: "educacionsProfessionals",
         foreignKey: "educacionId",
         onDelete: "CASCADE",
-            });
-      
-       professionals.belongsTo(models.experiencia, {
+      });
+      professionals.belongsTo(models.experiencia, {
         as: "experienciaProfessionals",
         foreignKey: "experienciaId",
         onDelete: "CASCADE",
@@ -26,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "credentialsId",
         onDelete: "CASCADE",
       });
-      professionals.hasMany(models.areas,{
+      professionals.hasMany(models.areas, {
         as: "areasProfessionals",
         foreignKey: "professionalsId",
         onDelete: "CASCADE",

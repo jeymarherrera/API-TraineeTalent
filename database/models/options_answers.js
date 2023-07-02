@@ -5,8 +5,8 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class options_answers extends Model {
     static associate(models) {
-   
-      options_answers.hasOne(models.correct_answer,{
+
+      options_answers.hasOne(models.correct_answer, {
         as: "options_answersCorrect_answer",
         foreignKey: "optionid",
         onDelete: "CASCADE",

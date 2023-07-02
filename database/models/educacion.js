@@ -15,11 +15,10 @@ module.exports = (sequelize, DataTypes) => {
   educacions.init({
     nombre: DataTypes.STRING,
     titulo: DataTypes.STRING,
-      ini_mont: DataTypes.STRING,
-        ini_year: DataTypes.INTEGER,
-      end_mont: DataTypes.STRING,
-        end_year: DataTypes.INTEGER,
-
+    ini_mont: DataTypes.STRING,
+    ini_year: DataTypes.INTEGER,
+    end_mont: DataTypes.STRING,
+    end_year: DataTypes.INTEGER,
     statusDelete: DataTypes.BOOLEAN
   }, {
     sequelize,

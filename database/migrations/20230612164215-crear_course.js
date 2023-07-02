@@ -1,5 +1,4 @@
 'use strict';
-
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../models');
 
@@ -41,7 +40,6 @@ module.exports = {
       }
     });
   },
-
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('courses');
   },
