@@ -1,29 +1,29 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class question extends Model {
-    static associate(models) {
-   
-      question.hasMany(models.options_answers,{
-        as: "questionOptions_answers",
-        foreignKey: "questionid",
-        onDelete: "CASCADE",
-      });
+const { Model, DataTypes } = require('sequelize');
 
-      question.belongsTo(models.tasks, {
-        as: "questionTask",
-        foreignKey: "taskid",
-        onDelete: "CASCADE",
+module.exports = (sequelize) => {
+  class questions extends Model {
+    static associate(models) {
+      questions.belongsTo(models.tasks, {
+        as: 'questionTask',
+        foreignKey: 'taskid',
+        onDelete: 'CASCADE',
       });
     }
   }
-  question.init({
-    question: DataTypes.STRING,
-  }, {
-    sequelize,
-    modelName: 'question',
-  });
-  return question;
+
+  questions.init(
+    {
+      question: DataTypes.STRING,
+      opciones: DataTypes.ARRAY(DataTypes.STRING),
+      correcta: DataTypes.STRING,
+      feedback: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: 'questions',
+    }
+  );
+
+  return questions;
 };

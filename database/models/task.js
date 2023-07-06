@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class task extends Model {
     static associate(models) {
    
-      task.hasMany(models.question,{
+      task.hasMany(models.questions,{
         as: "taskQuestion",
         foreignKey: "taskid",
         onDelete: "CASCADE",

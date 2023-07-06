@@ -1,11 +1,12 @@
 const models = require("../../database/models");
 const { fileUpload } = require("../utils/uploadFiles");
-const { esImagenBase64 } = require("../utils/imageBase")
+const { esImagenBase64 } = require("../utils/imageBase");
+const { where } = require("sequelize");
 // Controlador para crear un nuevo curso
 
 const updateCourse = async (req, res) => {
   try {
-    const { id, title, description, level, youwilllearn, image } = req.params;
+    const { id, title, description, level, youwilllearn, image, precio } = req.params;
 
     // Verifica si el curso existe en la base de datos
     const course = await models.courses.findByPk(id);
@@ -18,6 +19,7 @@ const updateCourse = async (req, res) => {
 
     // Actualiza el título del curso
     course.title = title;
+    course.precio = precio;
     course.description = description;
     course.level = level;
     course.youwilllearn = youwilllearn;
@@ -63,6 +65,7 @@ const createCourse = async (req, res) => {
     // Crea el nuevo curso en la base de datos
     const course = await models.courses.create({
       title: body.title,
+      precio: body.precio,
       description: body.description,
       image,
       level: body.level,
@@ -86,35 +89,7 @@ const createCourse = async (req, res) => {
   }
 };
 
-const createChapter = async (req, res) => {
-  try {
-    const { title } = req.body;
-    const { chapternum } = req.body;
-    const { courseid } = req.body;
 
-    // Crea el Capitulo en la base de datos
-    const chapter = await models.chapters.create({
-      title,
-      chapternum,
-      courseid,
-    });
-
-    return res.status(201).json({
-      success: true,
-      message: 'Capitulo creado exitosamente',
-      data: chapter
-    });
-
-
-  } catch (error) {
-    console.error('Error al crear el capitulo:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error al crear el capitulo',
-      error: error.message,
-    });
-  }
-};
 
 
 const getAllCourses = async (req, res) => {
@@ -249,13 +224,67 @@ const getAllTasks = async (req, res) => {
   }
 };
 
+const getAllQuestionsByTask = async (req, res) => {
+  const { taskid } = req.params;
+  try {
+    const questions = await models.questions.findAll({
+      where: {
+        taskid: taskid
+      }
+    });
+    console.log("----------------------------------------------------QUESTIONS---------------------------------------\n")
+    console.log(questions);
+    res.status(200).json({
+      success: true,
+      message: 'Questions obtenidos exitosamente',
+      data: questions
+    });
+  } catch (error) {
+    console.error('Error al obtener las preguntas:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener las preguntas',
+      error: error.message
+    });
+  }
+};
+
+const createQuestions = async (req, res) => {
+  try {
+    const { body } = req;
+ 
+    // Crea el nuevo curso en la base de datos
+    const question = await models.questions.create({
+      question: body.question,
+      opciones: body.precio,
+      correcta: body.correcta,
+      feddback: body.feddback
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: 'Curso creado exitosamente',
+      data: question
+    });
+  } catch (error) {
+    console.error('Error al crear Quesion:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al crear Quesion: ',
+      error: error.message
+    });
+  }
+}
+
 
 
 //Metodos para Capitulos, temas
 
 module.exports = {
+  getAllQuestionsByTask,
+  createQuestions,
+  updateCourse,
   createCourse,
-  createChapter,
   getAllCourses,
   deleteCourse,
   createtask,
