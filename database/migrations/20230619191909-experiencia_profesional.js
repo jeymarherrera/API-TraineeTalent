@@ -12,25 +12,25 @@ module.exports = {
       company: {
         type: Sequelize.STRING
       },
-            titulo: {
+      titulo: {
         type: Sequelize.STRING
       },
-                  locacion: {
+      locacion: {
         type: Sequelize.STRING
       },
-                   ini_mont: {
+      ini_mont: {
         type: Sequelize.STRING
       },
       ini_year: {
         type: Sequelize.STRING
       },
-            end_mont: {
+      end_mont: {
         type: Sequelize.STRING
       },
-     end_year: {
+      end_year: {
         type: Sequelize.STRING
       },
-                  
+
       statusDelete: {
         allowNull: false,
         defaultValue: false,

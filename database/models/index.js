@@ -5,12 +5,12 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const process = require('process');
 const basename = path.basename(__filename);
-const {DB} = require("../../config/config");
+const { DB } = require("../../config/config");
 const config = DB;
 const db = {};
 
 let sequelize;
-sequelize = new Sequelize(config.NAME, config.USER, config.PASSWORD, {host: config.HOST, dialect: config.DIALECT});
+sequelize = new Sequelize(config.NAME, config.USER, config.PASSWORD, { host: config.HOST, dialect: config.DIALECT });
 
 fs
   .readdirSync(__dirname)

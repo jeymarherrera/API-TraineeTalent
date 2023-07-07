@@ -9,14 +9,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-  
-            experiencia: {
+      experiencia: {
         type: Sequelize.STRING
       },
-             Aru_vue: {
+      Aru_vue: {
         type: Sequelize.INTEGER
       },
-      
       professionalsId: {
         type: Sequelize.INTEGER,
         references: {

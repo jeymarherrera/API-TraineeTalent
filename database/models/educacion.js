@@ -3,27 +3,26 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class educacion extends Model {
+  class educacions extends Model {
     static associate(models) {
-      educacion.hasOne(models.professionals, {
-        as: 'educacionProfessionals',
+      educacions.hasOne(models.professionals, {
+        as: 'educacionsProfessionals',
         foreignKey: 'educacionId',
         onDelete: 'CASCADE',
       });
     }
   }
-  educacion.init({
+  educacions.init({
     nombre: DataTypes.STRING,
     titulo: DataTypes.STRING,
-      ini_mont: DataTypes.STRING,
-        ini_year: DataTypes.INTEGER,
-      end_mont: DataTypes.STRING,
-        end_year: DataTypes.INTEGER,
-
+    ini_mont: DataTypes.STRING,
+    ini_year: DataTypes.INTEGER,
+    end_mont: DataTypes.STRING,
+    end_year: DataTypes.INTEGER,
     statusDelete: DataTypes.BOOLEAN
   }, {
     sequelize,
-    modelName: 'educacion',
+    modelName: 'educacions',
   });
-  return educacion;
+  return educacions;
 };

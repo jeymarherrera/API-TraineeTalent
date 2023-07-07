@@ -12,7 +12,7 @@ module.exports = {
       nombre: {
         type: Sequelize.STRING
       },
-            profesion: {
+      profesion: {
         type: Sequelize.STRING
       },
       gender: {
@@ -36,16 +36,16 @@ module.exports = {
       image: {
         type: Sequelize.STRING
       },
-            aboutme: {
+      aboutme: {
         type: Sequelize.STRING
       },
-                  social_link: {
+      social_link: {
         type: Sequelize.STRING
       },
-            social_git: {
+      social_git: {
         type: Sequelize.STRING
       },
-            cv_me: {
+      cv_me: {
         type: Sequelize.STRING
       },
       credentialsId: {
@@ -66,8 +66,6 @@ module.exports = {
         onDeleted: "CASCADE",
         onUpdated: "CASCADE",
       },
-         
-
       statusDelete: {
         allowNull: false,
         defaultValue: false,

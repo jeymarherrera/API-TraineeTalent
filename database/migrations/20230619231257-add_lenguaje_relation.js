@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.addColumn('areas', 'areaId', {
+    await queryInterface.addColumn('areas', 'lenguajesId', {
       type: Sequelize.INTEGER,
       references: {
         model: 'lenguajes',
@@ -14,6 +14,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeColumn('areas', 'areaId');
+    await queryInterface.removeColumn('areas', 'lenguajesId');
   }
 };
