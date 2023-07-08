@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   task.init({
     title: DataTypes.STRING,
     description: DataTypes.STRING,
-    image: DataTypes.STRING,
+    image: DataTypes.STRING(999999),
   }, {
     sequelize,
     modelName: 'tasks',

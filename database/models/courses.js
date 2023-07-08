@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       precio: DataTypes.FLOAT,
       description: DataTypes.STRING,
       level: DataTypes.STRING,
-      image: DataTypes.STRING(99999),
+      image: DataTypes.STRING(999999),
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE
     },

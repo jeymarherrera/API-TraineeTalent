@@ -14,7 +14,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       opciones: {
-        type: Sequelize.ARRAY(Sequelize.STRING)
+        type: Sequelize.ARRAY(Sequelize.JSONB)
       },
       correcta: {
         type: Sequelize.STRING,

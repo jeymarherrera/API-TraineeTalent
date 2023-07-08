@@ -11,6 +11,8 @@ const { createCourse,
     deletetaks,
     getAllTasks,
     createQuestions,
+    updateCourse,
+    updateTask,
     getAllQuestionsByTask,
 } = require("../controllers/course");
 const { pay, success } = require("../controllers/paypal");
@@ -38,13 +40,15 @@ router.post("/crearcursos", createCourse);
 router.get("/listarcursos", getAllCourses);
 router.get("/traerCursoSeleccionado/:id", getSelectedCourse)
 router.post("/borrarcurso/:id", deleteCourse);
-// router.post("/editarcurso/:id", updateCourse);
+router.post("/editarcurso/:id", updateCourse);
+router.post("/editartask/:id", updateTask);
+
 //cursos - adminitracion de talleres del curso
 router.post("/creartask/:id", createtask);
 router.post("/borrartask/:id", deletetaks);
 router.get("/traertask", getAllTasks);
-router.post('/crearQuestion', createQuestions);
-router.get('/traerquestion/:id', getAllQuestionsByTask);
+router.post('/crearQuestion/:id', createQuestions);
+router.get('/traerquestion/:taskid', getAllQuestionsByTask);
 
 
 //Reclutamiento de profesionales

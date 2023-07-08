@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
   questions.init(
     {
       question: DataTypes.STRING,
-      opciones: DataTypes.ARRAY(DataTypes.STRING),
+      opciones: DataTypes.ARRAY(DataTypes.JSONB),
       correcta: DataTypes.STRING,
       feedback: DataTypes.STRING,
     },

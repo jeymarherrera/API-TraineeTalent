@@ -6,8 +6,9 @@ const { where } = require("sequelize");
 
 const updateCourse = async (req, res) => {
   try {
-    const { id, title, description, level, youwilllearn, image, precio } = req.params;
-
+    const { id } = req.params;
+    const { title, description, level, youwilllearn, image, precio } = req.body;
+    console.log("imagen: "+image)
     // Verifica si el curso existe en la base de datos
     const course = await models.courses.findByPk(id);
     if (!course) {
@@ -17,24 +18,21 @@ const updateCourse = async (req, res) => {
       });
     }
 
-    // Actualiza el título del curso
+    // Actualiza los campos del curso
     course.title = title;
     course.precio = precio;
     course.description = description;
     course.level = level;
     course.youwilllearn = youwilllearn;
-    let _image = ""
-    if (esImagenBase64(image)) {
-      console.log("es base64")
-      _image = fileUpload(image, "/public");
-      _image = `${process.env.APP_BASE_URL}${_image}`;
-      course.image = _image;
 
+    if (esImagenBase64(image)) {
+      console.log("es base64");
+      const imageUrl = await fileUpload(image, "/public");
+      course.image = `${process.env.APP_BASE_URL}${imageUrl}`;
     } else {
+      console.log("no es base64, es String")
       course.image = image;
     }
-
-
 
     await course.save();
 
@@ -53,12 +51,59 @@ const updateCourse = async (req, res) => {
   }
 };
 
+
+const updateTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, image } = req.body;
+    console.log("entre ACA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    // Verifica si la tarea existe en la base de datos
+    const task = await models.tasks.findByPk(id);
+    if (!task) {
+      return res.status(404).json({
+        success: false,
+        message: 'Tarea no encontrada'
+      });
+    }
+
+    // Actualiza los datos de la tarea
+    task.title = title;
+    task.description = description;
+    
+    if (esImagenBase64(image)) {
+      console.log("Es base64");
+      const imageRoute = fileUpload(image, "/public");
+      task.image = `${process.env.APP_BASE_URL}${imageRoute}`;
+    } else {
+      task.image = image;
+    }
+
+    await task.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Tarea actualizada exitosamente',
+      data: task
+    });
+  } catch (error) {
+    console.error('Error al editar la tarea:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al editar la tarea',
+      error: error.message
+    });
+  }
+};
+
+
+
+
 const createCourse = async (req, res) => {
   try {
     const { body } = req;
-    console.log(body.data)
-    let image = fileUpload(body.image, "/public");
-    console.log(image)
+    console.log(body.data);
+    let image = await fileUpload(body.image, "/public");
+    console.log(image);
 
     image = `${process.env.APP_BASE_URL}${image}`;
 
@@ -78,16 +123,16 @@ const createCourse = async (req, res) => {
       data: course
     });
 
-
   } catch (error) {
     console.error('Error al crear el curso:', error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'Error al crear el curso',
-      error: error.message,
+      error: error.message
     });
   }
 };
+
 
 
 
@@ -226,61 +271,68 @@ const getAllTasks = async (req, res) => {
 
 const getAllQuestionsByTask = async (req, res) => {
   const { taskid } = req.params;
+  console.log('taskid:', taskid); // Verifica el valor de taskid aquí
+
   try {
     const questions = await models.questions.findAll({
-      where: {
-        taskid: taskid
-      }
+      where: { taskid: taskid }, // Asegúrate de pasar el valor correcto de taskid aquí
     });
-    console.log("----------------------------------------------------QUESTIONS---------------------------------------\n")
-    console.log(questions);
+
+    console.log('Questions:', questions); // Verifica la respuesta de la consulta aquí
+
     res.status(200).json({
       success: true,
       message: 'Questions obtenidos exitosamente',
-      data: questions
+      data: questions,
     });
   } catch (error) {
     console.error('Error al obtener las preguntas:', error);
     res.status(500).json({
       success: false,
       message: 'Error al obtener las preguntas',
-      error: error.message
+      error: error.message,
     });
   }
 };
 
+
 const createQuestions = async (req, res) => {
   try {
     const { body } = req;
- 
-    // Crea el nuevo curso en la base de datos
+    const { id } = req.params;
+    console.log(id);
+    // Crea la nueva pregunta en la base de datos
     const question = await models.questions.create({
       question: body.question,
-      opciones: body.precio,
+      opciones: body.opciones,
       correcta: body.correcta,
-      feddback: body.feddback
+      feedback: body.feedback, // Corregir la propiedad a 'feddback'
+      taskid: id,
     });
 
     return res.status(201).json({
       success: true,
-      message: 'Curso creado exitosamente',
-      data: question
+      message: 'Pregunta creada exitosamente',
+      data: question,
     });
   } catch (error) {
-    console.error('Error al crear Quesion:', error);
+    console.error('Error al crear la pregunta:', error);
     res.status(500).json({
       success: false,
-      message: 'Error al crear Quesion: ',
-      error: error.message
+      message: 'Error al crear la pregunta',
+      error: error.message,
     });
   }
-}
+};
+
+
 
 
 
 //Metodos para Capitulos, temas
 
 module.exports = {
+  updateTask,
   getAllQuestionsByTask,
   createQuestions,
   updateCourse,

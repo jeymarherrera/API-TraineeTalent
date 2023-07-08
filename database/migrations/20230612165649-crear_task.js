@@ -17,11 +17,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       image:{
-        type: Sequelize.STRING,
-      },statusDelete: {
-        allowNull: false,
-        defaultValue: false,
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.STRING(999999),
       },
       createdAt: {
         allowNull: false,
