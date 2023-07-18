@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       lenguaje.hasOne(models.areas, {
         as: "lenguajeProfessionals",
-        foreignKey: "lenguajesId",
+        foreignKey: "areaId",
         onDelete: "CASCADE",
       });
     }
