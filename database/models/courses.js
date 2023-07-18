@@ -15,8 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       description: DataTypes.STRING,
       level: DataTypes.STRING,
       image: DataTypes.STRING(999999),
+      recomended: DataTypes.BOOLEAN,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE
+      
     },
     {
       sequelize,

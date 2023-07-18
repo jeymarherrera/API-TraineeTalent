@@ -26,6 +26,10 @@ module.exports = {
       image: {
         type: Sequelize.STRING(999999),
       },
+      recomended:{
+        type: Sequelize.BOOLEAN,
+        default: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -96,8 +96,6 @@ const updateTask = async (req, res) => {
 };
 
 
-
-
 const createCourse = async (req, res) => {
   try {
     const { body } = req;
