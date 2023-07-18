@@ -50,6 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     addressesId: DataTypes.INTEGER,
     educacionId: DataTypes.INTEGER,
     experienciaId: DataTypes.INTEGER,
+      pdfContent: DataTypes.TEXT, 
     statusDelete: DataTypes.BOOLEAN
   }, {
     sequelize,

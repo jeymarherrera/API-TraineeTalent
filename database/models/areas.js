@@ -12,14 +12,14 @@ module.exports = (sequelize, DataTypes) => {
       });
        areas.belongsTo(models.lenguaje, {
         as: "lenguajeProfessionals",
-        foreignKey: "lenguajesId",
+        foreignKey: "areaId",
         onDelete: "CASCADE",
       });
     }
   }
   areas.init({
     professionalsId: DataTypes.INTEGER,
-    lenguajesId: DataTypes.INTEGER,
+    areaId: DataTypes.INTEGER,
     experiencia: DataTypes.STRING,
     Aru_vue: DataTypes.INTEGER,
     statusDelete: DataTypes.BOOLEAN
