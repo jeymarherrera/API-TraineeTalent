@@ -1,11 +1,14 @@
 const models = require("../../database/models");
 const paypal = require("paypal-rest-sdk");
-const { removeProduct } = require("./cart");
+const cartController = require("./cart");
 
 const pay = async (req, res) => {
   const { body } = req;
   const roundedTotal = Math.round(body.total * 100) / 100;
-  const { courseId, quantity, total } = req.body;
+  const productId = body.courseId;
+  const userId = parseFloat(body.userID);
+  const quantity = body.quantity;
+  
 
   const paymentData = {
     intent: "sale",
@@ -18,11 +21,23 @@ const pay = async (req, res) => {
     },
     transactions: [
       {
+        item_list: {
+          items: [
+            {
+              name: "hat",
+              sku: productId,
+              price: roundedTotal.toFixed(2),
+              currency: "USD",
+              quantity: quantity,
+              tax: userId, //en realidad se esta enviando el id del usuario
+            },
+          ],
+        },
         amount: {
           total: roundedTotal.toFixed(2),
           currency: "USD",
         },
-        description: "Descripción del pago",
+        description: "Curso comprado!",
       },
     ],
   };
@@ -32,13 +47,12 @@ const pay = async (req, res) => {
       console.error("Error al crear el pago:", error);
       return res.status(500).json({ message: "Error en el servidor" });
     } else {
-      const approvalUrl = payment.links.find(
-        (link) => link.rel === "approval_url"
-      ).href;
-      const approvalUrlWithExtraInfo = `${approvalUrl}?courseId=${courseId}&quantity=${quantity}`;
+      const approvalUrl = `${
+        payment.links.find((link) => link.rel === "approval_url").href
+      }`;
 
       return res.status(200).json({
-        redirectUrl: approvalUrlWithExtraInfo,
+        redirectUrl: approvalUrl,
       });
     }
   });
@@ -46,7 +60,6 @@ const pay = async (req, res) => {
 
 const success = async (req, res) => {
   try {
-    console.log(req.query);
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
 
@@ -65,19 +78,25 @@ const success = async (req, res) => {
           const orderNumber = payment.id;
           const purchaseDate = payment.create_time;
           const totalAmount = payment.transactions[0].amount.total;
+          const productId = payment.transactions[0].item_list.items[0].sku;
+          const quantity = payment.transactions[0].item_list.items[0].quantity;
+          const userID = parseInt(payment.transactions[0].item_list.items[0].tax);
 
           try {
             const newPurchase = await models.purchases.create({
               paymentId: orderNumber,
               date: purchaseDate,
               price: totalAmount,
-              courseId: 1,
-              quantity: 2,
+              quantity: quantity,
+              courseId : productId,
+              professionalId: userID,
             });
 
             console.log("Registro de compra creado:", newPurchase);
-            removeProduct();
 
+            //santiago
+
+            cartController.removeProducts(userID);
           } catch (error) {
             console.error("Error al crear el registro de compra:", error);
             return res.status(500).json({ message: "Error en el servidor" });
