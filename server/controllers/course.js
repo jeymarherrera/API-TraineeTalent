@@ -259,6 +259,7 @@ const getAllTasks = async (req, res) => {
       message: 'talleres obtenidos exitosamente',
       data: task
     });
+    console.log(task)
   } catch (error) {
     console.error('Error al obtener los talleres:', error);
     res.status(500).json({

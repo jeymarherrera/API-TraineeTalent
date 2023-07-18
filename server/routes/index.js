@@ -69,7 +69,7 @@ router.get('/success', success)
 
 
 //canasta de compras
-router.post('/cart/add', addProduct)
+router.post('/cart/add', verifyToken, addProduct)
 router.get('/cart', getAllProducts)
 router.delete('/cart/remove/:id', removeProduct)
 module.exports = {router};
