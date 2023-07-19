@@ -16,6 +16,15 @@ module.exports = {
       description:{
         type: Sequelize.STRING,
       },
+      courseid:{
+        type: Sequelize.INTEGER,
+        references: {
+          model: "courses",
+          key: "id",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      },
       image:{
         type: Sequelize.STRING(999999),
       },
@@ -27,15 +36,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      courseid:{
-        type: Sequelize.INTEGER,
-        references: {
-          model: "courses",
-          key: "id",
-        },
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
-      }
+     
     });
   },
 

@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
 
       task.belongsTo(models.courses, {
         as: "taskCourse",
-        foreignKey: "id",
+        foreignKey: "courseid",
         onDelete: "CASCADE",
       });
     }

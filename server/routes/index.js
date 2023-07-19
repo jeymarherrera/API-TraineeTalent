@@ -17,6 +17,7 @@ const { createCourse,
     updateCourse,
     updateTask,
     getAllQuestionsByTask,
+    getSavedCourses,
 } = require("../controllers/course");
 const { pay, success } = require("../controllers/paypal");
 const { EditarPerfilE , EditarPerfilP, Habilidad,subirpdf, getAllPerfil } = require("../controllers/perfil");
@@ -88,6 +89,8 @@ router.get("/traertask", getAllTasks);
 router.post('/crearQuestion/:id', createQuestions);
 router.get('/traerquestion/:taskid', getAllQuestionsByTask);
 
+//cursos comprados
+router.post("/traerCursoComprado/",verifyToken, getSavedCourses);
 
 //Reclutamiento de profesionales
 router.get("/traerTodoslosProfesionales", getAllProfessionals)

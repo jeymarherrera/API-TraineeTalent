@@ -2,6 +2,8 @@ const models = require("../../database/models");
 const { fileUpload } = require("../utils/uploadFiles");
 const { esImagenBase64 } = require("../utils/imageBase");
 const { where } = require("sequelize");
+const jwt = require("jsonwebtoken");
+
 // Controlador para crear un nuevo curso
 
 const updateCourse = async (req, res) => {
@@ -195,7 +197,10 @@ const deleteCourse = async (req, res) => {
 
 const createtask = async (req, res) => {
   try {
+    
     const { id } = req.params;
+
+    console.log("id del curso : "+id)
     const { title } = req.body;
     const { description } = req.body;
     const { image } = req.body;
@@ -327,6 +332,40 @@ const createQuestions = async (req, res) => {
 };
 
 
+const getSavedCourses = async (req, res) => {
+  
+  const token = req.headers['x-auth-token']; // Obtén el token del encabezado de la solicitud
+  try{
+    const decodedToken = jwt.decode(token); 
+    const userid = decodedToken.userId
+    console.log("id : "+userid)
+
+    const purchasesWithCourses = await models.purchases.findAll({
+      include: [models.courses], // Incluye el modelo Course en la consulta para el INNER JOIN
+      where: { professionalId: userid  }, // Condición para filtrar por el userId
+    });
+  
+    if (purchasesWithCourses.length > 0) {
+      console.log("Tiene cursos comprados con información de los cursos:");
+      console.log(purchasesWithCourses);
+      return res.status(201).json({
+        success: true,
+        message: 'cursos comprados obtenidos exitosamente',
+        data: purchasesWithCourses,
+      });
+    } else {  
+      console.log("No tiene cursos comprados");
+    }
+
+  }catch (error) {
+    console.log(error);
+    res.status(401).json({ message: 'id inválido' });
+  }
+
+
+}
+
+
 
 
 
@@ -343,4 +382,5 @@ module.exports = {
   createtask,
   deletetaks,
   getAllTasks,
+  getSavedCourses,
 }
