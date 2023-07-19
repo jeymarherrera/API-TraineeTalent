@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       Purchases.belongsTo(models.courses, {
-        foreignKey: 'courseId',
+        foreignKey: 'id',
         onDelete: 'CASCADE',
       });
     }
