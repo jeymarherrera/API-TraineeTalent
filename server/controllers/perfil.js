@@ -14,9 +14,9 @@ const EditarPerfilE = async (req, res) => {
     const direccion = await models.addresses.findByPk(id);
 
     if (educacion) {
-      const { nombre, titulo, ini_mont, ini_year, end_mont, end_year } = req.body;
+      const { nombre2, titulo, ini_mont, ini_year, end_mont, end_year } = req.body;
 
-      educacion.nombre = nombre;
+      educacion.nombre = nombre2;
       educacion.titulo = titulo;
       educacion.ini_mont = ini_mont;
       educacion.ini_year = ini_year;

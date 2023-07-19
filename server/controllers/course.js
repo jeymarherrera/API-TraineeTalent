@@ -2,13 +2,14 @@ const models = require("../../database/models");
 const { fileUpload } = require("../utils/uploadFiles");
 const { esImagenBase64 } = require("../utils/imageBase");
 const { where } = require("sequelize");
+const { Op } = require("sequelize");
 // Controlador para crear un nuevo curso
 
 const updateCourse = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, level, youwilllearn, image, precio } = req.body;
-    console.log("imagen: "+image)
+    console.log("imagen: " + image)
     // Verifica si el curso existe en la base de datos
     const course = await models.courses.findByPk(id);
     if (!course) {
@@ -69,7 +70,7 @@ const updateTask = async (req, res) => {
     // Actualiza los datos de la tarea
     task.title = title;
     task.description = description;
-    
+
     if (esImagenBase64(image)) {
       console.log("Es base64");
       const imageRoute = fileUpload(image, "/public");
@@ -155,6 +156,33 @@ const getAllCourses = async (req, res) => {
   }
 };
 
+
+const getRecommended = async (req, res) => {
+  try {
+    // Obtiene todos los cursos de la base de datos
+    const courses = await models.courses.findAll({
+      where: {
+        recomended: {
+          [Op.eq]: true
+        },
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Cursos obtenidos exitosamente',
+      data: courses
+    });
+
+  } catch (error) {
+    console.error('Error al obtener los cursos:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener los cursos',
+      error: error.message
+    });
+  }
+};
 
 const deleteCourse = async (req, res) => {
   try {
@@ -341,4 +369,5 @@ module.exports = {
   createtask,
   deletetaks,
   getAllTasks,
+  getRecommended,
 }

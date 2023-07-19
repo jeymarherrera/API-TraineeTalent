@@ -17,6 +17,7 @@ const { createCourse,
     updateCourse,
     updateTask,
     getAllQuestionsByTask,
+    getRecommended,
 } = require("../controllers/course");
 const { pay, success } = require("../controllers/paypal");
 const { EditarPerfilE , EditarPerfilP, Habilidad,subirpdf, getAllPerfil } = require("../controllers/perfil");
@@ -76,6 +77,7 @@ router.post("/lenguajes", lenguajesP);
 //cursos - adminitracion de  un curso
 router.post("/crearcursos", createCourse);
 router.get("/listarcursos", getAllCourses);
+router.get("/listarCursoRecom", getRecommended);
 router.get("/traerCursoSeleccionado/:id", getSelectedCourse)
 router.post("/borrarcurso/:id", deleteCourse);
 router.post("/editarcurso/:id", updateCourse);
