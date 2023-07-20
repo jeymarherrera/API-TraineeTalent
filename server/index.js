@@ -26,7 +26,7 @@ server.use(function (req, res, next) {
 server.use(router);
 // Configurar carpeta pública
 const publicFolderPath = 'C:/xampp/htdocs/API-TraineeTalent/public';
-
+server.use('/public', express.static(__dirname + '/public'));
 server.use("/public", express.static(publicFolderPath));
 
 server.get("/public/download/:fileName", (req, res) => {
