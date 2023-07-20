@@ -250,10 +250,87 @@ const getAllPerfil = async (req, res) => {
     });
   }
 };
+
+
+const getAllPerfilEmpresa = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const personal = await models.companies.findByPk(id);
+    const direccion = await models.addresses.findByPk(id);
+
+
+    res.status(200).json({
+      success: true,
+      message: 'Datos del perfil obtenidos exitosamente',
+      data: {
+        personal,
+        direccion,
+      },
+    });
+  } catch (error) {
+    console.error('Error al obtener los datos del perfil:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener los datos del perfil',
+      error: error.message,
+    });
+  }
+};
+
+const EditarPerfilEmprea = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const personal = await models.companies.findByPk(id);
+        const direccion = await models.addresses.findByPk(id);
+
+
+    if (personal) {
+      const { nombre3, profesion } = req.body;
+
+      personal.name = nombre3;
+      personal.sector = profesion;
+      
+      await personal.save();
+
+      
+
+      res.status(200).json({
+        success: true,
+        message: 'Datos Actualizados',
+        data: personal
+      });
+
+if (direccion) {
+      const { country, city,street } = req.body;
+      direccion.country = country;
+  direccion.city = city;
+        direccion.street = street;
+
+      await direccion.save();
+    }
+
+    }  else {
+      res.status(404).json({
+        success: false,
+        message: 'No existe Datos ni experiencia con el ID proporcionado'
+      });
+    }
+  } catch (error) {
+    console.error('Error al editar los datos:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al editar los datos',
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
+  getAllPerfilEmpresa,
   EditarPerfilE,
   EditarPerfilP,
   Habilidad,
   subirpdf,
-  getAllPerfil
+  getAllPerfil,
+  EditarPerfilEmprea
 }

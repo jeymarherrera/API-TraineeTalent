@@ -20,7 +20,7 @@ const { createCourse,
     getRecommended,
 } = require("../controllers/course");
 const { pay, success } = require("../controllers/paypal");
-const { EditarPerfilE , EditarPerfilP, Habilidad,subirpdf, getAllPerfil } = require("../controllers/perfil");
+const { EditarPerfilE , EditarPerfilP, Habilidad,subirpdf, getAllPerfil ,getAllPerfilEmpresa, EditarPerfilEmprea} = require("../controllers/perfil");
 const { getSelectedCourse } = require("../controllers/infoCourse")
 
 
@@ -62,6 +62,13 @@ router.post("/editarPerfilProfesional/:id", EditarPerfilE);
 router.post("/editarPerfilProfesional2/:id", EditarPerfilP);
 router.post("/editarPerfilProfesional3/:id", Habilidad);
 router.get("/traerperfil/:id", getAllPerfil)
+router.get("/traerperfilC/:id", getAllPerfilEmpresa
+)
+
+
+router.post("/editarPerfilEmpresa/:id", EditarPerfilEmprea);
+
+
 
 
 //SUBIR PDF
