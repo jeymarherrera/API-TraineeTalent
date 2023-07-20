@@ -330,7 +330,27 @@ const createQuestions = async (req, res) => {
     });
   }
 };
+const getTaksByCourseid  = async (req, res) =>{
+  const {id} = req.params
+  try {
+    // Obtiene todos los cursos de la base de datos
+    const task = await models.tasks.findAll({where: {courseid: id}});
 
+    res.status(200).json({
+      success: true,
+      message: 'talleres obtenidos exitosamente',
+      data: task
+    });
+    console.log(task)
+  } catch (error) {
+    console.error('Error al obtener los talleres:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener los talleres',
+      error: error.message
+    });
+  }
+}
 
 const getSavedCourses = async (req, res) => {
   
@@ -372,6 +392,7 @@ const getSavedCourses = async (req, res) => {
 //Metodos para Capitulos, temas
 
 module.exports = {
+  getTaksByCourseid,
   updateTask,
   getAllQuestionsByTask,
   createQuestions,

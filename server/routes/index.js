@@ -16,6 +16,7 @@ const { createCourse,
     createQuestions,
     updateCourse,
     updateTask,
+    getTaksByCourseid,
     getAllQuestionsByTask,
     getSavedCourses,
 } = require("../controllers/course");
@@ -88,7 +89,7 @@ router.post("/borrartask/:id", deletetaks);
 router.get("/traertask", getAllTasks);
 router.post('/crearQuestion/:id', createQuestions);
 router.get('/traerquestion/:taskid', getAllQuestionsByTask);
-
+router.get('/traerTaskById/:id', getTaksByCourseid);
 //cursos comprados
 router.post("/traerCursoComprado/",verifyToken, getSavedCourses);
 
