@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       ini_year: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
             end_mont: {
         type: Sequelize.STRING

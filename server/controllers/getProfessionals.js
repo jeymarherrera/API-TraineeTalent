@@ -19,6 +19,10 @@ const getAllProfessionals = async (req, res) => {
                     as: "experienciaProfessionals",
                 },
                 {
+                    model: models.educacions,
+                    as: "educacionsProfessionals",
+                },
+                {
                     model: models.areas,
                     as: "areasProfessionals",
                     include: {
@@ -66,21 +70,6 @@ const getProfessionals = async (req, res) => {
         let salary_expectation = body.input4;
 
         console.log(languajes);
-
-        // let queryLanguajes = '';
-        // function setQueryLanguajes() {
-        //     let queryaux = '';
-        //     languajes.forEach((element, index) => {
-        //         if (Object.is(languajes.length - 1, index)) {
-        //             queryaux = `${queryaux}${element}`;
-        //         } else {
-        //             queryaux = queryaux + `${element} AND `;
-        //         }
-        //     });
-        //     return queryaux;
-        // }
-        // queryLanguajes = setQueryLanguajes();
-        // console.log(queryLanguajes);
 
         const professionals = await models.professionals.findAll({
             where: {

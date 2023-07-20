@@ -2,13 +2,16 @@ const models = require("../../database/models");
 const { fileUpload } = require("../utils/uploadFiles");
 const { esImagenBase64 } = require("../utils/imageBase");
 const { where } = require("sequelize");
+const { Op } = require("sequelize");
+const jwt = require("jsonwebtoken");
+
 // Controlador para crear un nuevo curso
 
 const updateCourse = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, level, youwilllearn, image, precio } = req.body;
-    console.log("imagen: "+image)
+    console.log("imagen: " + image)
     // Verifica si el curso existe en la base de datos
     const course = await models.courses.findByPk(id);
     if (!course) {
@@ -69,7 +72,7 @@ const updateTask = async (req, res) => {
     // Actualiza los datos de la tarea
     task.title = title;
     task.description = description;
-    
+
     if (esImagenBase64(image)) {
       console.log("Es base64");
       const imageRoute = fileUpload(image, "/public");
@@ -156,6 +159,33 @@ const getAllCourses = async (req, res) => {
 };
 
 
+const getRecommended = async (req, res) => {
+  try {
+    // Obtiene todos los cursos de la base de datos
+    const courses = await models.courses.findAll({
+      where: {
+        recomended: {
+          [Op.eq]: true
+        },
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Cursos obtenidos exitosamente',
+      data: courses
+    });
+
+  } catch (error) {
+    console.error('Error al obtener los cursos:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener los cursos',
+      error: error.message
+    });
+  }
+};
+
 const deleteCourse = async (req, res) => {
   try {
     const { id } = req.params;
@@ -193,7 +223,10 @@ const deleteCourse = async (req, res) => {
 
 const createtask = async (req, res) => {
   try {
+    
     const { id } = req.params;
+
+    console.log("id del curso : "+id)
     const { title } = req.body;
     const { description } = req.body;
     const { image } = req.body;
@@ -323,6 +356,60 @@ const createQuestions = async (req, res) => {
     });
   }
 };
+const getTaksByCourseid  = async (req, res) =>{
+  const {id} = req.params
+  try {
+    // Obtiene todos los cursos de la base de datos
+    const task = await models.tasks.findAll({where: {courseid: id}});
+
+    res.status(200).json({
+      success: true,
+      message: 'talleres obtenidos exitosamente',
+      data: task
+    });
+    console.log(task)
+  } catch (error) {
+    console.error('Error al obtener los talleres:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener los talleres',
+      error: error.message
+    });
+  }
+}
+
+const getSavedCourses = async (req, res) => {
+  
+  const token = req.headers['x-auth-token']; // Obtén el token del encabezado de la solicitud
+  try{
+    const decodedToken = jwt.decode(token); 
+    const userid = decodedToken.userId
+    console.log("id : "+userid)
+
+    const purchasesWithCourses = await models.purchases.findAll({
+      include: [models.courses], // Incluye el modelo Course en la consulta para el INNER JOIN
+      where: { professionalId: userid  }, // Condición para filtrar por el userId
+    });
+  
+    if (purchasesWithCourses.length > 0) {
+      console.log("Tiene cursos comprados con información de los cursos:");
+      console.log(purchasesWithCourses);
+      return res.status(201).json({
+        success: true,
+        message: 'cursos comprados obtenidos exitosamente',
+        data: purchasesWithCourses,
+      });
+    } else {  
+      console.log("No tiene cursos comprados");
+    }
+
+  }catch (error) {
+    console.log(error);
+    res.status(401).json({ message: 'id inválido' });
+  }
+
+
+}
 
 
 
@@ -331,6 +418,7 @@ const createQuestions = async (req, res) => {
 //Metodos para Capitulos, temas
 
 module.exports = {
+  getTaksByCourseid,
   updateTask,
   getAllQuestionsByTask,
   createQuestions,
@@ -341,4 +429,6 @@ module.exports = {
   createtask,
   deletetaks,
   getAllTasks,
+  getRecommended,
+  getSavedCourses,
 }
