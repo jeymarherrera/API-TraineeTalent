@@ -9,6 +9,7 @@ const { lenguajesP } = require("../controllers/lenguajes");
 const { verifyToken } = require("../middlewares/auth");
 const { createCourse,
     getAllCourses,
+    validarRespuestas,
     createtask,
     deleteCourse,
     deletetaks,
@@ -94,7 +95,7 @@ router.get('/traerquestion/:taskid', getAllQuestionsByTask);
 router.get('/traerTaskById/:id', getTaksByCourseid);
 //cursos comprados
 router.post("/traerCursoComprado/",verifyToken, getSavedCourses);
-
+router.post("/validarRespuestas", verifyToken , validarRespuestas)
 //Reclutamiento de profesionales
 router.get("/traerTodoslosProfesionales", getAllProfessionals)
 router.post("/traerProfesionales", getProfessionals);

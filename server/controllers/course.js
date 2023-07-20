@@ -413,7 +413,9 @@ const getSavedCourses = async (req, res) => {
 
 
 const validarRespuestas = async () => {
-  
+  const datosFormulario = req.body; // Los datos enviados desde el formulario
+
+  console.log(datosFormulario)
 }
 
 
