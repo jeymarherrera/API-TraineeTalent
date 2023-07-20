@@ -19,8 +19,9 @@ const getAllProfessionals = async (req, res) => {
                     as: "experienciaProfessionals",
                 },
                 {
-                    model: models.educacions,
-                    as: "educacionsProfessionals",
+                    model: models.credentials,
+                    as: "credentialsProfessionals",
+                    attributes: ['id'],
                 },
                 {
                     model: models.areas,
@@ -106,6 +107,11 @@ const getProfessionals = async (req, res) => {
                 {
                     model: models.experiencia,
                     as: "experienciaProfessionals",
+                },
+                {
+                    model: models.credentials,
+                    as: "credentialsProfessionals",
+                    attributes: ['id'],
                 },
                 {
                     model: models.areas,

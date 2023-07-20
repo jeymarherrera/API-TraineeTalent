@@ -6,7 +6,7 @@ const emailService = require('../../server/services/emailServices');
 const recoverByEmail = async (req, res) => {
     try {
         const { body } = req;
-
+        
         const findEmail = await models.credentials.findOne({ where: { email: body.email, statusDelete: false, } });
         let findUser;
 
@@ -18,7 +18,7 @@ const recoverByEmail = async (req, res) => {
                 findUser = await models.companies.findOne({ where: { credentialsId: findEmail.id } });
             }
         }
-
+        
         if (!findUser) {
             return res.status(400).json({ message: 'Correo no encontrado' });
         }

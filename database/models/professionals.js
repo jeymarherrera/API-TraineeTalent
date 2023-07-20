@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "addressesId",
         onDelete: "CASCADE",
       });
-            professionals.belongsTo(models.educacions, {
+      professionals.belongsTo(models.educacions, {
         as: "educacionsProfessionals",
         foreignKey: "educacionId",
         onDelete: "CASCADE",

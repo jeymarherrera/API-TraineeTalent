@@ -22,8 +22,8 @@ const { createCourse,
 } = require("../controllers/course");
 const { pay, success } = require("../controllers/paypal");
 const { EditarPerfilE , EditarPerfilP, Habilidad,subirpdf, getAllPerfil } = require("../controllers/perfil");
-const { getSelectedCourse } = require("../controllers/infoCourse")
-
+const { getSelectedCourse } = require("../controllers/infoCourse");
+const { notificacionProfesional } = require("../controllers/emailNotification");
 
 const { Router } = require("express");
 const { addProduct, getCartContent, getAllProducts, removeProduct } = require("../controllers/cart");
@@ -92,12 +92,14 @@ router.post('/crearQuestion/:id', createQuestions);
 router.get('/traerquestion/:taskid', getAllQuestionsByTask);
 
 //cursos comprados
-router.post("/traerCursoComprado/",verifyToken, getSavedCourses);
+router.post("/traerCursoComprado/", verifyToken, getSavedCourses);
 
 //Reclutamiento de profesionales
 router.get("/traerTodoslosProfesionales", getAllProfessionals)
 router.post("/traerProfesionales", getProfessionals);
 
+// notificacion
+router.get('/notificarPro/:id', notificacionProfesional)
 
 router.get("/verifyToken", verifyToken);
 
