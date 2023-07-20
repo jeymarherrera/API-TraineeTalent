@@ -24,7 +24,7 @@ const { getSelectedCourse } = require("../controllers/infoCourse")
 
 
 const { Router } = require("express");
-const { addProduct, getCartContent, getAllProducts, removeProduct } = require("../controllers/cart");
+const { addProduct, getCartContent, getAllProducts, removeProduct, removeSelectProduct } = require("../controllers/cart");
 const router = Router();
 const multer = require('multer');
 const path = require('path'); 
@@ -109,7 +109,7 @@ router.get('/success', success)
 //canasta de compras
 router.post('/cart/add', verifyToken, addProduct)
 router.get('/cart', getAllProducts)
-router.delete('/cart/remove/:id', removeProduct)
+router.delete('/cart/remove/:professionalId/:courseId', removeSelectProduct);
 
 
 

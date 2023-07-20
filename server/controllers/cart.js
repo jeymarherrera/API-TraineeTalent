@@ -13,9 +13,6 @@ const addProduct = async (req, res) => {
     userType = "companyId";
   }
 
-  console.log(courseId);
-  console.log(userId);
-  console.log(userRole);
 
   models.carts
     .findOne({ where: { courseId } })
@@ -82,6 +79,21 @@ const removeProduct = async (req, res) => {
     });
 };
 
+const removeSelectProduct = async (req, res) => {
+  const { professionalId, courseId } = req.params;
+
+  models.carts
+    .destroy({ where: { professionalId: professionalId, courseId: courseId } })
+    .then(() => {
+      res
+        .status(200)
+        .json({ success: true, message: "Producto eliminado de la canasta" });
+    })
+    .catch((error) => {
+      res.status(500).json({ success: false, error: error.message });
+    });
+};
+
 const updateQuantity = (req, res) => {};
 
 async function getAllProducts(req, res) {
@@ -101,8 +113,6 @@ async function getAllProducts(req, res) {
     const userRole = decoded.role;
 
     let userType = "";
-    console.log("id: " + userId);
-    console.log("tipo de usuario: " + userRole);
 
     if (userRole === "Profesional") {
       userType = "professionalId";
@@ -118,7 +128,7 @@ async function getAllProducts(req, res) {
         {
           model: models.courses,
           as: "course",
-          attributes: ["title", "precio"],
+          attributes: ["title", "precio", "image" ],
         },
       ],
     });
@@ -162,6 +172,7 @@ const getCartContent = (req, res) => {
 module.exports = {
   addProduct,
   removeProducts,
+  removeSelectProduct,
   removeProduct,
   updateQuantity,
   getCartContent,
