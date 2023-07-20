@@ -412,12 +412,18 @@ const getSavedCourses = async (req, res) => {
 }
 
 
+const validarRespuestas = async () => {
+  
+}
+
+
 
 
 
 //Metodos para Capitulos, temas
 
 module.exports = {
+  validarRespuestas,
   getTaksByCourseid,
   updateTask,
   getAllQuestionsByTask,
