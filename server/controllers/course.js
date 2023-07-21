@@ -417,7 +417,27 @@ const createQuestions = async (req, res) => {
     });
   }
 };
+const getTaksByCourseid = async (req, res) => {
+  const { id } = req.params
+  try {
+    // Obtiene todos los cursos de la base de datos
+    const task = await models.tasks.findAll({ where: { courseid: id } });
 
+    res.status(200).json({
+      success: true,
+      message: 'talleres obtenidos exitosamente',
+      data: task
+    });
+    console.log(task)
+  } catch (error) {
+    console.error('Error al obtener los talleres:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener los talleres',
+      error: error.message
+    });
+  }
+}
 
 const getSavedCourses = async (req, res) => {
 
@@ -453,6 +473,52 @@ const getSavedCourses = async (req, res) => {
   }
 }
 
+const validarRespuestas = async (req, res) => {
+  try {
+    const token = req.headers['x-auth-token']; // Obtén el token del encabezado de la solicitud
+    const datosFormulario = req.body; // Los datos enviados desde el formulario
+    const decodedToken = jwt.decode(token);
+    const userid = decodedToken.userId;
+    let task_id_ = ""; // Cambia "const" a "let" para poder modificar el valor de pregunta_id_
+
+    console.log(datosFormulario);
+
+    for (const data of datosFormulario) {
+      const { taskid, respuesta_id, correcta } = data;
+      task_id_ = taskid; // Asigna el valor de pregunta_id a la variable pregunta_id_ en cada iteración
+      console.log(task_id_)
+      await models.answers.create({
+        userid: userid,
+        taskid: taskid,
+        useranswer: respuesta_id,
+        correcta: correcta
+      });
+    }
+
+    // Realiza una consulta para obtener los datos de la tabla answers para el usuario actual (userid) y para la pregunta específica (pregunta_id_)
+
+    const respuestasConPreguntas = await models.answers.findAll({
+      include: [models.questions], // Incluye el modelo Course en la consulta para el INNER JOIN
+      where: { taskid: task_id_, userid: userid }, // Condición para filtrar por el userId
+    });
+    // Aquí puedes realizar la validación de las respuestas recibidas y guardar los datos en la base de datos si es necesario
+
+    // Envía una respuesta con un mensaje de éxito y los datos de la tabla answers para el usuario actual y la pregunta específica
+    return res.status(201).json({
+      success: true,
+      message: 'Respuestas validadas exitosamente',
+      data: respuestasConPreguntas
+    });
+  } catch (error) {
+    console.error(error);
+
+    // Si ocurre algún error, envía una respuesta con un mensaje de error
+    res.status(500).json({ message: 'Ocurrió un error al validar las respuestas' });
+  }
+};
+
+
+
 
 
 
@@ -462,6 +528,8 @@ const getSavedCourses = async (req, res) => {
 //Metodos para Capitulos, temas
 
 module.exports = {
+  validarRespuestas,
+  getTaksByCourseid,
   updateTask,
   getAllQuestionsByTask,
   createQuestions,

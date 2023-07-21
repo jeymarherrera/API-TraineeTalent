@@ -10,6 +10,7 @@ const { verifyToken } = require("../middlewares/auth");
 const { createCourse,
     getAllCourses,
     getAllandSavedCourses,
+    validarRespuestas,
     createtask,
     deleteCourse,
     deletetaks,
@@ -17,6 +18,7 @@ const { createCourse,
     createQuestions,
     updateCourse,
     updateTask,
+    getTaksByCourseid,
     getAllQuestionsByTask,
     getRecommended,
     getSavedCourses,
@@ -91,11 +93,11 @@ router.post("/borrartask/:id", deletetaks);
 router.get("/traertask", getAllTasks);
 router.post('/crearQuestion/:id', createQuestions);
 router.get('/traerquestion/:taskid', getAllQuestionsByTask);
-
+router.get('/traerTaskById/:id', getTaksByCourseid);
 //cursos comprados
 router.post("/traerCursoComprado/", verifyToken, getSavedCourses);
 router.post("/traerCursosyComprados", verifyToken, getAllandSavedCourses);
-
+router.post("/validarRespuestas/", verifyToken , validarRespuestas)
 //Reclutamiento de profesionales
 router.get("/traerTodoslosProfesionales", getAllProfessionals)
 router.post("/traerProfesionales", getProfessionals);
