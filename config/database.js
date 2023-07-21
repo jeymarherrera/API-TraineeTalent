@@ -7,13 +7,14 @@ const db = new Sequelize(DB.NAME, DB.USER, DB.PASSWORD, {
   dialect: DB.DIALECT,
 });
 
-sequelize.sync({ force: true })
-  .then(() => {
-    console.log('Tablas creadas (o reiniciadas) exitosamente.');
-  })
-  .catch((error) => {
-    console.error('Error al crear (o reiniciar) las tablas:', error);
-  });
+// sequelize.sync({ force: true })
+//   .then(() => {
+//     console.log('Tablas creadas (o reiniciadas) exitosamente.');
+//   })
+//   .catch((error) => {
+//     console.error('Error al crear (o reiniciar) las tablas:', error);
+//   });
 
 
-module.exports = { db:sequelize };
+//module.exports = { db:sequelize };
+module.exports = { db };
