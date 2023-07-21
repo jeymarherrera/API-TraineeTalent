@@ -8,7 +8,7 @@ const pay = async (req, res) => {
   const productId = body.courseId;
   const userId = parseFloat(body.userID);
   const quantity = body.quantity;
-  
+
 
   const paymentData = {
     intent: "sale",
@@ -16,8 +16,8 @@ const pay = async (req, res) => {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: "http://localhost:5050/success",
-      cancel_url: "http://localhost:5050/cancel",
+      return_url: `${process.env.APP_BASE_URL}/success`,
+      cancel_url: `${process.env.APP_BASE_URL}/cancel`,
     },
     transactions: [
       {
@@ -47,9 +47,8 @@ const pay = async (req, res) => {
       console.error("Error al crear el pago:", error);
       return res.status(500).json({ message: "Error en el servidor" });
     } else {
-      const approvalUrl = `${
-        payment.links.find((link) => link.rel === "approval_url").href
-      }`;
+      const approvalUrl = `${payment.links.find((link) => link.rel === "approval_url").href
+        }`;
 
       return res.status(200).json({
         redirectUrl: approvalUrl,
@@ -88,7 +87,7 @@ const success = async (req, res) => {
               date: purchaseDate,
               price: totalAmount,
               quantity: quantity,
-              courseId : productId,
+              courseId: productId,
               professionalId: userID,
             });
 
