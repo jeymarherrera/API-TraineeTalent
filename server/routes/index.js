@@ -13,6 +13,7 @@ const { createCourse,
     validarRespuestas,
     createtask,
     deleteCourse,
+    obtenerRespuestas,
     deletetaks,
     getAllTasks,
     createQuestions,
@@ -105,6 +106,8 @@ router.get('/traerTaskById/:id', getTaksByCourseid);
 router.post("/traerCursoComprado/", verifyToken, getSavedCourses);
 router.post("/traerCursosyComprados", verifyToken, getAllandSavedCourses);
 router.post("/validarRespuestas/", verifyToken , validarRespuestas)
+router.post("/traerRespuestas/:id", verifyToken , obtenerRespuestas)
+
 //Reclutamiento de profesionales
 router.get("/traerTodoslosProfesionales", getAllProfessionals)
 router.post("/traerProfesionales", getProfessionals);
