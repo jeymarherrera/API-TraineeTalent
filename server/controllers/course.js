@@ -164,9 +164,51 @@ const getAllCourses = async (req, res) => {
 };
 
 
-const getRecommended = async (req, res) => {
+const getAllandSavedCourses = async (req, res) => {
+
+  const token = req.headers['x-auth-token']; // Obtén el token del encabezado de la solicitud
   try {
-    // Obtiene todos los cursos de la base de datos
+    const decodedToken = jwt.decode(token);
+    const userid = decodedToken.userId
+    console.log("id : " + userid)
+
+    const courses = await models.courses.findAll({
+      order: [
+        ['id', 'ASC']
+      ],
+      include: [
+        {
+          model: models.purchases,
+          as: "coursesPurchases",
+          where: {
+            professionalId: userid,
+          },
+          attributes: ["id"], // Solo necesitamos el id para verificar si hay una compra relacionada
+          required: false,
+        },
+      ],
+    });
+    return res.status(200).json({
+      success: true,
+      message: 'cursos traidos exitosamente',
+      data: courses,
+    });
+  }
+  catch (error) {
+    console.log(error);
+    res.status(401).json({ message: 'id inválido' });
+  }
+}
+
+
+
+const getRecommended = async (req, res) => {
+  const token = req.headers['x-auth-token']; // Obtén el to
+  try {
+    const decodedToken = jwt.decode(token);
+    const userid = decodedToken.userId
+    console.log("id : " + userid)
+
     const courses = await models.courses.findAll({
       order: [
         ['id', 'ASC']
@@ -176,6 +218,17 @@ const getRecommended = async (req, res) => {
           [Op.eq]: true
         },
       },
+      include: [
+        {
+          model: models.purchases,
+          as: "coursesPurchases",
+          where: {
+            professionalId: userid,
+          },
+          attributes: ["id"], // Solo necesitamos el id para verificar si hay una compra relacionada
+          required: false,
+        },
+      ],
     });
 
     res.status(200).json({
@@ -398,9 +451,9 @@ const getSavedCourses = async (req, res) => {
     console.log(error);
     res.status(401).json({ message: 'id inválido' });
   }
-
-
 }
+
+
 
 
 
@@ -415,6 +468,7 @@ module.exports = {
   updateCourse,
   createCourse,
   getAllCourses,
+  getAllandSavedCourses,
   deleteCourse,
   createtask,
   deletetaks,

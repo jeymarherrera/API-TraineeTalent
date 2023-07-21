@@ -4,7 +4,11 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class courses extends Model {
     static associate(models) {
-      // Definir las asociaciones con otros modelos aquí si es necesario
+      courses.hasMany(models.purchases, {
+        as: "coursesPurchases",
+        foreignKey: "courseId",
+        onDelete: "CASCADE",
+      });
     }
   }
   courses.init(
@@ -18,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       recomended: DataTypes.BOOLEAN,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE
-      
     },
     {
       sequelize,
