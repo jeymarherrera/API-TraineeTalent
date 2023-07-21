@@ -6,10 +6,9 @@ const emailService = require('../../server/services/emailServices');
 const recoverByEmail = async (req, res) => {
     try {
         const { body } = req;
-        
-        const findEmail = await models.credentials.findOne({ where: { email: body.email, statusDelete: false, } });
-        let findUser;
 
+        const findEmail = await models.credentials.findOne({ where: { email: body.email} });
+        let findUser;
 
         if (findEmail) {
             findUser = await models.professionals.findOne({ where: { credentialsId: findEmail.id } });
