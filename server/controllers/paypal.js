@@ -120,7 +120,7 @@ const success = async (req, res) => {
         }
 
         return res.redirect(
-          `http://localhost:5173/carrito/success?orderNumber=${orderNumber}&purchaseDate=${purchaseDate}&totalAmount=${payment.transactions[0].amount.total}`
+          `http://localhost:5173/carrito`
         );
       }
     });

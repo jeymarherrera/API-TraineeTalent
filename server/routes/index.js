@@ -3,7 +3,7 @@ const { recoverByEmail } = require("../controllers/recoverPassword");
 const { addProfessional, editProfileProfessional } = require("../controllers/professionals");
 const { addAdmin} = require("../controllers/admin");
 
-const { addCompany, getAllProjects, getSelectedProject } = require("../controllers/companies");
+const { addCompany, getAllProjects, getSelectedProject, crearProyecto } = require("../controllers/companies");
 const { getProfessionals, getAllProfessionals } = require("../controllers/getProfessionals");
 const { lenguajesP } = require("../controllers/lenguajes");
 const { verifyToken } = require("../middlewares/auth");
@@ -27,7 +27,7 @@ const { getSelectedCourse } = require("../controllers/infoCourse")
 
 
 const { Router } = require("express");
-const { addProduct, getCartContent, getAllProducts, removeProduct, removeSelectProduct } = require("../controllers/cart");
+const { addProduct, getCartContent, getAllProducts, removeProduct, removeSelectProduct, validarMembresia } = require("../controllers/cart");
 const router = Router();
 const multer = require('multer');
 const path = require('path'); 
@@ -103,7 +103,8 @@ router.post("/traerProfesionales", getProfessionals);
 router.get("/verifyToken", verifyToken);
 
 //postulaciones
-router.get('/projects',verifyToken, getAllProjects)
+router.post("/projects/create", crearProyecto)
+router.get('/projects', getAllProjects)
 
 router.get('/project/:id', getSelectedProject)
 
@@ -118,7 +119,8 @@ router.get('/cart', getAllProducts)
 router.delete('/cart/remove/:professionalId/:courseId', removeSelectProduct);
 
 
-
+//membresia
+router.get('/validarMembresia', validarMembresia)
 
 
 module.exports = {router};

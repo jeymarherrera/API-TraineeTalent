@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       courseId: DataTypes.INTEGER,
       quantity: DataTypes.INTEGER,
       price: DataTypes.FLOAT,
+      membresia: DataTypes.BOOLEAN,
       date: DataTypes.DATE,
       paymentId: DataTypes.STRING
     },

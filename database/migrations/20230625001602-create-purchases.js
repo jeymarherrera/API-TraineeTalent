@@ -44,6 +44,9 @@ module.exports = {
       price: {
         type: Sequelize.FLOAT
       },
+      membresia: {
+        type: Sequelize.BOOLEAN
+      },
       date: {
         type: Sequelize.DATE
       },

@@ -13,7 +13,6 @@ const addProduct = async (req, res) => {
     userType = "companyId";
   }
 
-
   models.carts
     .findOne({ where: { courseId } })
     .then((cartItem) => {
@@ -94,13 +93,8 @@ const removeSelectProduct = async (req, res) => {
     });
 };
 
-const updateQuantity = (req, res) => {};
-
 async function getAllProducts(req, res) {
-
-
   try {
-
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).send("Token no proporcionado");
@@ -122,21 +116,18 @@ async function getAllProducts(req, res) {
 
     const products = await models.carts.findAll({
       where: {
-        [userType]: userId
+        [userType]: userId,
       },
       include: [
         {
           model: models.courses,
           as: "course",
-          attributes: ["title", "precio", "image" ],
+          attributes: ["title", "precio", "image"],
         },
       ],
     });
-
     const productData = products.map((product) => product.toJSON());
-
     console.log(productData);
-
     return res.status(200).json({
       success: true,
       message: "Success",
@@ -147,6 +138,33 @@ async function getAllProducts(req, res) {
     return res
       .status(500)
       .send("Error al obtener los productos de la base de datos");
+  }
+}
+
+async function validarMembresia(req, res) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).send("Token no proporcionado");
+  }
+
+  const token = authHeader.substring(7);
+  const decoded = jwt.decode(token);
+
+  const userId = decoded.userId;
+  console.log(userId);
+  try {
+    const usuario = await models.purchases.findOne({
+      where: { companyId: userId },
+    });
+    console.log(usuario);
+    if (usuario && usuario.membresia === true) {
+      res.status(200).json({ tieneMembresia: true });
+    } else {
+      res.status(200).json({ tieneMembresia: false });
+    }
+  } catch (error) {
+    console.error("Error al obtener información de membresía:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 }
 
@@ -174,7 +192,7 @@ module.exports = {
   removeProducts,
   removeSelectProduct,
   removeProduct,
-  updateQuantity,
   getCartContent,
   getAllProducts,
+  validarMembresia,
 };
