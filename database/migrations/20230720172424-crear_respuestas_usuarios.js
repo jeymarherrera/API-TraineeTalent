@@ -13,7 +13,7 @@ module.exports = {
       useranswer: {
         type: Sequelize.STRING,
       },
-      
+
       correcta: {
         type: Sequelize.STRING,
       },
@@ -22,6 +22,15 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: "credentials",
+          key: "id",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      },
+      taskid: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "tasks",
           key: "id",
         },
         onDelete: "CASCADE",

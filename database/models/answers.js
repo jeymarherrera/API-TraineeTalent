@@ -17,7 +17,15 @@ module.exports = (sequelize) => {
         onDelete: 'CASCADE',
       });
     }
+    static associate(models) {
+      answers.belongsTo(models.tasks, {
+        as: 'answerTasks',
+        foreignKey: 'taskid',
+        onDelete: 'CASCADE',
+      });
+    }
   }
+  
 
   answers.init(
     {
@@ -25,6 +33,7 @@ module.exports = (sequelize) => {
       correcta: DataTypes.STRING,
       questionid: DataTypes.INTEGER,
       userid: DataTypes.INTEGER,
+      taskid: DataTypes.INTEGER,
 
 
     },
