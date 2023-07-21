@@ -451,7 +451,10 @@ const getSavedCourses = async (req, res) => {
       order: [
         ['id', 'ASC']
       ],
-      include: [models.courses], // Incluye el modelo Course en la consulta para el INNER JOIN
+      include: [{
+        model: models.courses,
+        as: 'coursesPurchases'
+      }], // Incluye el modelo Course en la consulta para el INNER JOIN
       where: { professionalId: userid }, // Condición para filtrar por el userId
     });
 
