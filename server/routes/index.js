@@ -24,9 +24,9 @@ const { createCourse,
     getSavedCourses,
 } = require("../controllers/course");
 const { pay, success } = require("../controllers/paypal");
-const { EditarPerfilE , EditarPerfilP, Habilidad,subirpdf, getAllPerfil } = require("../controllers/perfil");
 const { getSelectedCourse } = require("../controllers/infoCourse");
 const { notificacionProfesional } = require("../controllers/emailNotification");
+const { EditarPerfilE , EditarPerfilP, Habilidad,subirpdf, getAllPerfil ,getAllPerfilEmpresa, EditarPerfilEmprea} = require("../controllers/perfil");
 
 const { Router } = require("express");
 const { addProduct, getCartContent, getAllProducts, removeProduct } = require("../controllers/cart");
@@ -66,6 +66,13 @@ router.post("/editarPerfilProfesional/:id", EditarPerfilE);
 router.post("/editarPerfilProfesional2/:id", EditarPerfilP);
 router.post("/editarPerfilProfesional3/:id", Habilidad);
 router.get("/traerperfil/:id", getAllPerfil)
+router.get("/traerperfilC/:id", getAllPerfilEmpresa
+)
+
+
+router.post("/editarPerfilEmpresa/:id", EditarPerfilEmprea);
+
+
 
 
 //SUBIR PDF
